@@ -77,13 +77,19 @@ export function LoginForm () {
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <div className="grid gap-6">
-                                <div className="flexflex-colgap-4">
+                                <div className="flex flex-col gap-4">
                                     <Button
                                         variant="outline"
                                         className="w-full"
                                         type="button"
                                         disabled={isPending}
                                     >
+                                        <Image
+                                            src="/logos/github.svg"
+                                            alt="Github logo"
+                                            width={20}
+                                            height={20}
+                                        />
                                         Continue with Github
                                     </Button>
                                     <Button
@@ -92,6 +98,12 @@ export function LoginForm () {
                                         type="button"
                                         disabled={isPending}
                                     >
+                                        <Image
+                                            src="/logos/google.svg"
+                                            alt="Google logo"
+                                            width={20}
+                                            height={20}
+                                        />
                                         Continue with Google
                                     </Button>
                                 </div>
