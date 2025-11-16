@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { inngest } from "./client";
+import * as Sentry from "@sentry/nextjs";
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
 import {createAnthropic} from '@ai-sdk/anthropic';
@@ -15,6 +16,10 @@ export const execute = inngest.createFunction(
   async ({ event, step }) => {
     await step.sleep("pretended-delay", "5s");
 
+    Sentry.logger.info('User triggered test log', { log_source: 'sentry_test' })
+    console.warn("something is missing");
+    console.error("this is an error log");
+
     const { steps: geminiSteps } = await step.ai.wrap(
       "gemini-generate-text", 
       generateText, 
@@ -22,6 +27,11 @@ export const execute = inngest.createFunction(
         model: google("gemini-2.5-flash-preview-09-2025"),
         system: "you are a helpful assistant.",
         prompt: "what is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -32,6 +42,11 @@ export const execute = inngest.createFunction(
         model: openai("gpt-4.1-mini"),
         system: "you are a helpful assistant.",
         prompt: "what is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -42,6 +57,11 @@ export const execute = inngest.createFunction(
         model: anthropic("claude-2"),
         system: "you are a helpful assistant.",
         prompt: "what is 2+2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
