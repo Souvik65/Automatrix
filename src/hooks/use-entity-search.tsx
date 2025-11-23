@@ -16,7 +16,7 @@ export function useEntittySearch<T extends {
 }>({
     params,
     setParams,
-    debounceMs = 500
+    debounceMs = 300
 }: UseEntitySearchProps<T>) {
     const [localSearch, setLocalSearch] = useState(params.search);
 
@@ -39,7 +39,7 @@ export function useEntittySearch<T extends {
         }, debounceMs)
 
         return () => clearTimeout(timer);
-    }, [localSearch, params, setParams, debounceMs]);
+    }, [localSearch, setParams, debounceMs]);
 
     useEffect(() => {
         setLocalSearch(params.search)
