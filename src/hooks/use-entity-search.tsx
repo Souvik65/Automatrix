@@ -39,7 +39,7 @@ export function useEntittySearch<T extends {
         }, debounceMs)
 
         return () => clearTimeout(timer);
-    }, [localSearch, setParams, debounceMs]);
+    }, [localSearch, params, setParams, debounceMs]);
 
     useEffect(() => {
         setLocalSearch(params.search)

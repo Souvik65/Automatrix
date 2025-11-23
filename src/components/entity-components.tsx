@@ -306,7 +306,7 @@ export const EntityItem = ({
         }
 
         if (onRemove) {
-            return;
+            await onRemove();
         }
     }
     return (
