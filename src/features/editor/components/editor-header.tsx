@@ -64,7 +64,7 @@ export const EditorNameInput = ({ workflowId }: { workflowId: string }) => {
                 name,
             });
         } catch {
-            setName (workflow.name);
+            setName(workflow.name);
         } finally {
             setIsEditing(false);
         }
