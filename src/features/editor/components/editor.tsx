@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { 
     ReactFlow, 
     applyNodeChanges, 
@@ -24,6 +24,8 @@ import { nodeComponents } from "@/config/node-components";
 import { AddNodeButton } from "./add-node-button";
 import { useSetAtom } from "jotai";
 import { editorAtom } from "../store/atoms";
+import { NodeType } from "@/generated/prisma/enums";
+import { ExecuteWorkflowButton } from "./execute-workflow-button";
 
 export const EditorLoading = () => {
     return <LoadingView message="Loading workflow..." />;
@@ -58,6 +60,9 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
     );
 
 
+    const hasManualTrigger = useMemo(() => {
+        return nodes.some((node) =>node.type === NodeType.MANUAL_TRIGGER);
+    }, [nodes]);
 
     return (
         <div className="size-full">
@@ -71,10 +76,13 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 onInit={setEditor}
                 fitView
                 snapGrid={[10, 10]}
-                // snapToGrid //use for snapping nodes to grid
-                zoomOnScroll={true}
-                // panOnScroll={true} // enable panning when scrolling
-                // panOnDrag={true} // enable panning when dragging the canvas
+                zoomOnScroll={true}        // Zoom with scroll wheel
+                panOnScroll={true}        // Disable pan on scroll (avoids conflicts)
+                panOnDrag={[1]}         // Enable panning on left-click (1) or middle-click (2) drag
+                panActivationKeyCode="Control"  // Panning only when Control is held during drag
+                selectionOnDrag={true}     // Enable selection box on normal drag (default behavior)
+                selectionKeyCode={null}    // No key required for selection (selection is default)
+
                 // proOptions={{ hideAttribution: true}} // hide reactflow watermark attribution
             >
                 <Background />
@@ -83,6 +91,11 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 <Panel position="top-right">
                     <AddNodeButton />
                 </Panel>
+                {hasManualTrigger && (
+                    <Panel position="bottom-center">
+                        <ExecuteWorkflowButton workflowId={workflowId} />
+                    </Panel>
+                )}
             </ReactFlow>
         </div>
     );

@@ -5,7 +5,7 @@ import { MousePointer2Icon } from "lucide-react";
 import { ManualTriggerDialog } from "./dialog";
 
 export const ManualTriggerNode = memo((props: NodeProps) => {
-    const [dialohOpen, setDialogOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const nodeStatus = "initial";
 
@@ -13,7 +13,7 @@ export const ManualTriggerNode = memo((props: NodeProps) => {
 
     return (
         <>
-            <ManualTriggerDialog open={dialohOpen} onOpenChange={setDialogOpen} />
+            <ManualTriggerDialog open={dialogOpen} onOpenChange={setDialogOpen} />
             <BaseTriggerNode
             {...props}
             icon={MousePointer2Icon}
