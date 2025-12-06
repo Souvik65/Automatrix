@@ -18,7 +18,7 @@ export const ManualTriggerDialog = ({
 }: Props) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className=" max-h-[90vh] overflow-y-auto p-6 rounded-scrollbar">
                 <DialogHeader>
                     <DialogTitle>Manual Trigger</DialogTitle>
                     <DialogDescription>
