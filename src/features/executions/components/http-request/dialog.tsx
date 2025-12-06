@@ -94,7 +94,7 @@ export const HttpRequestDialog = ({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
+            <DialogContent className=" w-full max-h-[90vh] overflow-y-auto p-6 rounded-scrollbar">  
                 <DialogHeader>
                     <DialogTitle>HTTP Request</DialogTitle>
                     <DialogDescription>
@@ -119,7 +119,7 @@ export const HttpRequestDialog = ({
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                       Use this name to reference the reult in other nodes: {" "}
+                                       Use this name to reference the result in other nodes: {" "}
                                        {`{{${watchVariableName}.httpResponse.data}}`}
                                     </FormDescription>
                                     <FormMessage />
