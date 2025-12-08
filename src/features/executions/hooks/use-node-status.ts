@@ -29,8 +29,8 @@ export function useNodeStatus({
         }
 
         // Find the latest message for this node
-        const latestMessage = data.
-            filter(
+        const latestMessage = data
+            .filter(
                 (msg) => 
                     msg.kind === "data" &&
                     msg.channel === channel &&

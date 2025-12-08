@@ -1,5 +1,5 @@
 import { Inngest } from "inngest";
-import { realtimeMiddleware } from "@inngest/realtime/middleware"
+import { realtimeMiddleware } from "@inngest/realtime/middleware";
 
 
 // Create a client to send and receive events
