@@ -93,7 +93,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
             return {
                 ...context,
                 [data.variableName]: responsePayload,
-            }
+            };
         });
 
 
