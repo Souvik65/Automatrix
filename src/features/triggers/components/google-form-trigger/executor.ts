@@ -1,9 +1,9 @@
 import type { NodeExecutor } from "@/features/executions/types";
 import { googleFormTriggerChannel } from "@/inngest/channels/google-form-trigger";
 
-type googleFormTriggerData = Record<string, unknown>;
+type GoogleFormTriggerData = Record<string, unknown>;
 
-export const googleFormTriggerExecutor: NodeExecutor<googleFormTriggerData> = async ({
+export const googleFormTriggerExecutor: NodeExecutor<GoogleFormTriggerData> = async ({
     nodeId,
     context,
     step,

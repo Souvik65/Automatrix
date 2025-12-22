@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
                 { success: false, error: "Failed to process Google Form submission" },
                 { status: 400 }
             ); 
-        };
+        }
 
         const body = await request.json();
 
@@ -33,6 +33,11 @@ export async function POST(request: NextRequest) {
                 googleForm: formData,
             },
         });
+
+        return NextResponse.json(
+            { success: true },
+            { status: 200 },
+        );
 
 
     } catch (error) {

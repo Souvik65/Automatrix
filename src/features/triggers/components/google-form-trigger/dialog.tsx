@@ -63,7 +63,7 @@ export const GoogleFormTriggerDialog = ({
                                 className="font-mono text-sm"
                             />
                             <Button
-                                type ="button"
+                                type="button"
                                 size="icon"
                                 variant="outline"
                                 onClick={copyToClipboard}
@@ -81,7 +81,7 @@ export const GoogleFormTriggerDialog = ({
                             <li>Copy and  paste the script below</li>
                             <li>Replace WEBHOOK_URL with your webhook URL above</li>
                             <li>Save and click "Triggers" → and Trigger</li>
-                            <li>Choos: From form → On form submit → Save</li>
+                            <li>Choose: From form → On form submit → Save</li>
                         </ol>
                     </div>
 
@@ -106,7 +106,7 @@ export const GoogleFormTriggerDialog = ({
                         <p className="text-xs text-muted-foreground">this script includes your webhook URL and handles form submissions</p>
                     </div>
 
-                    <div className="rounded-lg bg-muted p-4 sace-y-2">
+                    <div className="rounded-lg bg-muted p-4 space-y-2">
                         <h4 className="font-medium text-sm">Available Variablea</h4>
                         <ul className="text-sm text-muted-foreground space-y-1">
                             <li>
@@ -117,15 +117,15 @@ export const GoogleFormTriggerDialog = ({
                             </li>
                             <li>
                                 <code className="bg-background px-1 py-0.5 rounded">
-                                    {"{{googleForm.responces['Question Name']}}"}
+                                    {"{{googleForm.responses['Question Name']}}"}
                                 </code>
                                 - Specific answer
                             </li>
                             <li>
                                 <code className="bg-background px-1 py-0.5 rounded">
-                                    {"{{json googleForm.responces}}"}
+                                    {"{{json googleForm.responses}}"}
                                 </code>{" "}
-                                - All responces as JSON
+                                - All responses as JSON
                             </li>
                         </ul>
                     </div>
