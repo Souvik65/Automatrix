@@ -9,6 +9,7 @@ import { manualTriggerChannel } from "./channels/manual-trigger";
 import { googleFormTriggerChannel } from "./channels/google-form-trigger";
 
 
+
 export const executeWorkflow = inngest.createFunction(
   { 
     id: "execute-workflow" ,
@@ -20,6 +21,7 @@ export const executeWorkflow = inngest.createFunction(
       httpRequestChannel(),
       manualTriggerChannel(),
       googleFormTriggerChannel(),
+      
     ],
   },
   async ({ event, step, publish }) => {
