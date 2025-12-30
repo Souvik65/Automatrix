@@ -17,7 +17,7 @@ type GeminiNodeData = {
 type GeminiNodeType = Node<GeminiNodeData>;
 
 export const GeminiNode = memo((props: NodeProps<GeminiNodeType>) => {
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] =  useState(false);
     const { setNodes } = useReactFlow();
 
     const nodeStatus = useNodeStatus({

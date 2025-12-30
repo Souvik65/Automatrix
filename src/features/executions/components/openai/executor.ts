@@ -60,7 +60,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
 
     const systemPrompt = data.systemPrompt
         ? Handlebars.compile(data.systemPrompt)(context)
-        : "You are a helpful assistant.";
+        : "YOu are a helpful assistant.";
     const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
     //TODO fetch credentials that user has set up
