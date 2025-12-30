@@ -60,7 +60,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
 
     const systemPrompt = data.systemPrompt
         ? Handlebars.compile(data.systemPrompt)(context)
-        : "YOu are a helpful assistant.";
+        : "You are a helpful assistant.";
     const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
     //TODO fetch credentials that user has set up

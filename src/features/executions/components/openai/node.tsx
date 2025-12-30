@@ -17,7 +17,7 @@ type OpenAINodeData = {
 type OpenAINodeType = Node<OpenAINodeData>;
 
 export const OpenAINode = memo((props: NodeProps<OpenAINodeType>) => {
-    const [dialogOpen, setDialogOpen] =  useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
     const { setNodes } = useReactFlow();
 
     const nodeStatus = useNodeStatus({
