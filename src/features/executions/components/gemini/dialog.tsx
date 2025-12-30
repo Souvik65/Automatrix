@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { Textarea } from "@/components/ui/textarea";
-import z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
@@ -132,7 +132,7 @@ export const GeminiDialog = ({
                                         />
                                     </FormControl>
                                 <FormDescription>
-                                    Sets the Behaviour of the assistant. Use {"{{variables}}"} for sample values or {"{{json variable}}"} to stringify objects.
+                                    Sets the behavior of the assistant. Use {"{{variables}}"} for sample values or {"{{json variable}}"} to stringify objects.
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
