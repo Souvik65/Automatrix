@@ -9,9 +9,10 @@ import { fetchAnthropicRealtimeToken } from "./actions";
 import { ANTHROPIC_CHANNEL_NAME } from "@/inngest/channels/anthropic";
 
 type AnthropicNodeData = {
+    variableName?: string;
+    credentialId?: string;
     systemPrompt?: string;
     userPrompt?: string;
-    variableName?: string;
 };
 
 type AnthropicNodeType = Node<AnthropicNodeData>;

@@ -9,9 +9,10 @@ import { fetchGeminiRealtimeToken } from "./actions";
 import { GEMINI_CHANNEL_NAME } from "@/inngest/channels/gemini";
 
 type GeminiNodeData = {
+    variableName?: string;
+    credentialId?: string;
     systemPrompt?: string;
     userPrompt?: string;
-    variableName?: string;
 };
 
 type GeminiNodeType = Node<GeminiNodeData>;
