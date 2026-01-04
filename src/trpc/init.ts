@@ -50,7 +50,7 @@ export const premiumProcedure = protectedProcedure.use(async ({ ctx, next }) => 
   ) {
     throw new TRPCError({
       code: "FORBIDDEN",
-      message: "Premium membership required",
+      message: "Pro membership required",
     });
   }
   return next({ ctx: { ...ctx, customer } });
