@@ -26,7 +26,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
-import { CredentialType } from "@/generated/prisma/enums";
+import { CredentialType } from "@prisma/client";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Image from "next/image";
