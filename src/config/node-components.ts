@@ -5,7 +5,7 @@ import { HttpRequestNode } from "@/features/executions/components/http-request/n
 import { OpenAINode } from "@/features/executions/components/openai/node";
 import { GoogleFormTrigger } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
-import { NodeType } from "@/generated/prisma/enums";
+import { NodeType } from "@prisma/client";
 import type { NodeTypes } from "@xyflow/react";
 
 export const nodeComponents = {
