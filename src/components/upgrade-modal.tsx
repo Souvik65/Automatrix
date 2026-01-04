@@ -25,17 +25,17 @@ export const UpgradeModal = ({
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Upgrade Required</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        To access this feature, please upgrade your account to Premium.
+                    <AlertDialogTitle>Pro Required</AlertDialogTitle>
+                    <AlertDialogDescription className="">
+                        To access this feature, please upgrade your account for Free.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction 
-                        onClick={() => authClient.checkout({ slug: "Premium" })}
+                        onClick={() => authClient.checkout({ slug: "pro" })}
                     >
-                        Upgrade Now
+                        Try Now for Free
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

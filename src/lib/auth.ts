@@ -32,8 +32,9 @@ export const auth = betterAuth({
                     products: [
                         {
                             productId: "b61f13fc-35dd-4709-b905-954994555f24", //change
-                            slug: "Premium",
-                        }
+                            slug: "pro",
+                        },
+                        
                     ],
                     successUrl: process.env.POLAR_SUCCESS_URL,
                     authenticatedUsersOnly: true,
