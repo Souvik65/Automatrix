@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "biome check",
     "ngrok:dev": "ngrok http --url=unlaudative-handcrafted-odilia.ngrok-free.dev 3000",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.1",
