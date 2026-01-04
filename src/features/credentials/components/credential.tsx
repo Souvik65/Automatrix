@@ -4,7 +4,7 @@ import { CredentialType } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCreateCredential, useUpdateCredential, useSuspenseCredential } from "../hooks/use-credentials";
-import { useUpgradeModal } from "@/hooks/use-upgrade-modal";
+// import { useUpgradeModal } from "@/hooks/use-upgrade-modal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -74,7 +74,7 @@ export const CredentialForm = ({
     const router = useRouter();
     const createCredential = useCreateCredential();
     const updateCredential = useUpdateCredential();
-    const { handleError, modal } = useUpgradeModal();
+    // const { handleError, modal } = useUpgradeModal();
 
     const isEdit = !!initialData?.id;
   const [showKey, setShowKey] = useState(false);
@@ -101,7 +101,7 @@ export const CredentialForm = ({
                     router.push(`/credentials/${data.id}`);
                 },
                 onError: (error) => {
-                    handleError(error);
+                    // handleError(error);
                 }
             });
         }
@@ -110,7 +110,7 @@ export const CredentialForm = ({
     
     return (
         <>
-            {modal}
+            {/* {modal} */}
             <Card className="shadow-none">
                 <CardHeader>
                     <CardTitle>

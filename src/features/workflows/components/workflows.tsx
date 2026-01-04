@@ -13,7 +13,7 @@ import {
     LoadingView 
 } from "@/components/entity-components";
 import { useCreateWorkflow, useRemoveWorkflow, useSuspenseWorkflows } from "../hooks/use-workflows"
-import { useUpgradeModal } from "@/hooks/use-upgrade-modal";
+// import { useUpgradeModal } from "@/hooks/use-upgrade-modal";
 import { useRouter } from "next/navigation";
 import { useWorkflowsParams } from "../hooks/use-workflows-params";
 import { useEntittySearch } from "@/hooks/use-entity-search";
@@ -55,7 +55,7 @@ export const WorkflowsList = () => {
 export const WorkflowsHeader = ({ disabled }: { disabled?: boolean }) => {
     const router = useRouter();
     const createWorkflow = useCreateWorkflow();
-    const {handleError, modal} = useUpgradeModal();
+    // const {handleError, modal} = useUpgradeModal();
 
     const handleCreate = () => {
         createWorkflow.mutate(undefined, {
@@ -63,14 +63,14 @@ export const WorkflowsHeader = ({ disabled }: { disabled?: boolean }) => {
                 router.push(`/workflows/${data.id}`);
             },
             onError: (error) => {
-                handleError(error); 
+                // handleError(error); 
             },
         });
     }
 
     return  (
         <>
-            {modal}
+            {/* {modal} */}
             <EntityHeader
                 title="Workflows"
                 description="Create and manage your workflows"
@@ -124,12 +124,12 @@ export const WorkflowsError = () => {
 export const WorkflowsEmpty = () => {
     const router = useRouter();
     const createWorkflow = useCreateWorkflow();
-    const { handleError, modal } = useUpgradeModal();
+    // const { handleError, modal } = useUpgradeModal();
 
     const handleCreate = () => {
         createWorkflow.mutate(undefined, {
             onError: (error) => {
-                handleError(error);
+                // handleError(error);
             },
             onSuccess: (data) => {
                 router.push(`/workflows/${data.id}`);
@@ -139,7 +139,7 @@ export const WorkflowsEmpty = () => {
 
     return (
         <>
-            {modal}
+            {/* {modal} */}
             <EmptyView
                 onNew={handleCreate}
                 message="You haven't creates any workflows yet. Get Startes by creating your first workflow" />
