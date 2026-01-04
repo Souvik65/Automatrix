@@ -2,7 +2,7 @@
 
 import { ExecutionStatus } from "@/generated/prisma/enums";
 import { CheckCircle2Icon, ClockIcon, Loader2Icon, XCircleIcon } from "lucide-react";
-import { formatDistance, formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -131,7 +131,7 @@ export const ExecutionView = ({
                                     </Button>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent>
-                                    <pre className="text-xs font-mono text-red-800 overflow-auto mt-2 p--2 bg-red-100 rounded">
+                                    <pre className="text-xs font-mono text-red-800 overflow-auto mt-2 p-2 bg-red-100 rounded">
                                         {execution.errorStack}
                                     </pre>
                                 </CollapsibleContent>
@@ -144,12 +144,12 @@ export const ExecutionView = ({
 
                 {execution.output && (
                     <div className="mt-6 p-4 rounded-md ">
-                        <p className="mt-6 p-4 bg-muted rounded-md">
+                        <div className="mt-6 p-4 bg-muted rounded-md">
                             <p className="text-sm font-medium mb-2">Output</p>
                             <pre className="text-xs font-mono overflow-auto">
                                 {JSON.stringify(execution.output, null, 2)}
                             </pre>
-                        </p>
+                        </div>
                     </div>
                 )}
                 

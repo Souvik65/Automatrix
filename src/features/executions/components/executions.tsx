@@ -86,7 +86,7 @@ export const ExecutionsEmpty = () => {
    
     return (
         <EmptyView
-            message="You haven't any executions yet." />
+            message="You don't have any executions yet." />
     );
 };
 
