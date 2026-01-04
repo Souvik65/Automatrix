@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import z from "zod";
 import { PAGINATION } from "@/config/constants";
 import { CredentialType } from "@prisma/client";
@@ -9,7 +9,7 @@ import { encrypt } from "@/lib/encryption";
 
 export const credentialsRouter = createTRPCRouter({
     
-    create: premiumProcedure
+    create: protectedProcedure
         .input(
             z.object({
                 name: z.string().min(1, "Name is Required"),
