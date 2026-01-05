@@ -28,7 +28,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         }> = [];
 
         // Create particles
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 30; i++) {
             particles. push({
                 x: Math. random() * canvas.width, //  It generates a random x-coordinate within the width of the canvas.
                 y: Math.random() * canvas.height, // It generates a random y-coordinate within the height of the canvas.
