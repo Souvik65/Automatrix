@@ -5,6 +5,7 @@ import { requireAuth } from "@/lib/auth-utils";
 import { HydrateClient } from "@/trpc/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { Loading } from "@/components/ui/loading";
 
 interface PageProps {
     params: Promise<{
@@ -20,11 +21,11 @@ const Page = async ({params }: PageProps) => {
     return (
         <HydrateClient>
             <ErrorBoundary fallback={<EditorError />}>
-                <Suspense fallback={<EditorLoading />}>
-                <EditorHeader workflowId={workflowId} />
-                <main className="flex-1">
-                    <Editor workflowId={workflowId} />
-                </main>
+                <Suspense fallback={<Loading size="lg" text="Loading workflow editor..." />}>
+                    <EditorHeader workflowId={workflowId} />
+                    <main className="flex-1 animate-slide-in-right">
+                        <Editor workflowId={workflowId} />
+                    </main>
                 </Suspense>
             </ErrorBoundary>
         </HydrateClient>

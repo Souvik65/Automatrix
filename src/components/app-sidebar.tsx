@@ -7,6 +7,7 @@ import {
     KeyIcon,
     LogOutIcon,
     StarIcon,
+    WorkflowIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -80,12 +81,28 @@ export const AppSidebar = () => {
                                                     :pathname.startsWith(item.url)
                                             }
                                             asChild
-                                            className="gap-x-4 h-10 px-4"
+                                            className="group/item relative overflow-hidden transition-all hover:bg-accent/50"
                                         >
-                                            <Link href={item.url} prefetch>
-                                                <item.icon className="size-4" />
+                                            <a href={item.url} className="group/item" >
+                                                <div className="w-8 h-8 rounded-md gradient-bg-primary flex items-center justify-center mr-2 group-hover/item:scale-110 transition-transform">
+                                                    <item.icon className="size-4" />
+                                                </div>
+                                                                                                
+                                                {/* Active indicator */}
+                                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 data-[active=true]:scale-y-100 transition-transform rounded-r-full" 
+                                                     data-active={
+                                                        item.url === "/"
+                                                            ?  pathname === "/"
+                                                            : pathname.startsWith(item.url)
+                                                     }
+                                                /> 
+                                                
+                                               {/* Hover shimmer effect */}
+                                                <div className="absolute inset-0 -translate-x-full group-hover/item:translate-x-full transition-transform duration-600 bg-gradient-to-r from-transparent via-white to-transparent" />
+                                                
+                                                {/* <item.icon className="size-4" /> */}
                                                 <span>{item.title}</span>
-                                            </Link>
+                                            </a>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 ))}
@@ -120,8 +137,8 @@ export const AppSidebar = () => {
                     </SidebarMenuItem> */}
                     <SidebarMenuItem>
                         <SidebarMenuButton
-                        tooltip= "log out"
-                            className="gap-x-4 h-10 px-4"
+                            tooltip="log out"
+                            className="gap-x-4 h-10 px-4 group/item relative overflow-hidden"
                             onClick={() => authClient.signOut({
                                 fetchOptions: {
                                     onSuccess: () => {
@@ -132,6 +149,7 @@ export const AppSidebar = () => {
                         >
                             <LogOutIcon className="h-4 w-4" />
                             <span>Log out</span>
+                            <div className="absolute inset-0 -translate-x-full group-hover/item:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
