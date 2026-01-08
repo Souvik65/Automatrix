@@ -307,17 +307,7 @@ export function RegisterForm() {
                                     )}
                                 />
 
-                                {/* Terms and Conditions */}
-                                <p className="text-xs text-muted-foreground text-center">
-                                    By signing up, you agree to our{" "}
-                                    <Link href="/terms" className="text-primary hover:underline">
-                                        Terms of Service
-                                    </Link>{" "}
-                                    and{" "}
-                                    <Link href="/privacy" className="text-primary hover:underline">
-                                        Privacy Policy
-                                    </Link>
-                                </p>
+                                
 
                                 {/* Submit Button */}
                                 <Button

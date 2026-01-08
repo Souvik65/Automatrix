@@ -12,7 +12,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const ctx = canvas. getContext("2d");
+        const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
         canvas.width = window.innerWidth;
@@ -23,19 +23,19 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             y: number;
             size: number;
             speedX: number;
-            speedY:  number;
+            speedY: number;
             opacity: number;
         }> = [];
 
         // Create particles
         for (let i = 0; i < 30; i++) {
             particles. push({
-                x: Math. random() * canvas.width, //  It generates a random x-coordinate within the width of the canvas.
-                y: Math.random() * canvas.height, // It generates a random y-coordinate within the height of the canvas.
-                size: Math.random() * 4 + 2, // It assigns a random size between 3 and 9 to the particle.
-                speedX: Math.random() * 0.5 - 0.25, // It assigns a random horizontal speed between -0.15 and 0.15.
-                speedY: Math. random() * 0.5 - 0.25, // It assigns a random vertical speed between -0.15 and 0.15.
-                opacity: Math.random() * 0.5 + 0.2, // It assigns a random opacity between 0.2 and 0.7.
+                x: Math. random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2 + 1,
+                speedX: Math.random() * 0.5 - 0.25,
+                speedY: Math. random() * 0.5 - 0.25,
+                opacity: Math.random() * 0.5 + 0.2,
             });
         }
 
@@ -45,19 +45,17 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             particles.forEach((particle) => {
-                particle.x += particle.speedX; // It updates the x-coordinate of the particle based on its horizontal speed.
-                particle.y += particle.speedY; // It updates the y-coordinate of the particle based on its vertical speed.
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
 
-                // Wrap particles around the edges
-
-                if (particle.x < 0) particle.x = canvas.width; // If the particle moves off the left edge, it reappears on the right edge.
-                if (particle.x > canvas.width) particle.x = 0;     // If the particle moves off the right edge, it reappears on the left edge.
-                if (particle. y < 0) particle.y = canvas.height;
-                if (particle.y > canvas.height) particle.y = 0;
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas. height) particle.y = 0;
 
                 ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2); // It draws a circle at the particle's current position with its specified size.
-                ctx.fillStyle = `rgba(139, 92, 246, ${particle.opacity})`;
+                ctx.arc(particle. x, particle.y, particle. size, 0, Math.PI * 2);
+                ctx. fillStyle = `rgba(139, 92, 246, ${particle.opacity})`;
                 ctx.fill();
             });
 
@@ -76,32 +74,32 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     return (
-        <div className="relative min-h-screen flex overflow-hidden">
+        <div className="relative min-h-screen w-full flex overflow-hidden">
             {/* Animated Canvas Background */}
             <canvas
                 ref={canvasRef}
                 className="absolute inset-0 pointer-events-none opacity-30"
             />
 
-            {/* Mesh Gradient Background
-            <div className="absolute inset-0 mesh-gradient bg-grid" /> */}
+            {/* Mesh Gradient Background */}
+            <div className="absolute inset-0 mesh-gradient bg-grid" />
 
             {/* Left Side - Branding (Hidden on mobile) */}
-            <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-12">
-                <div className="max-w-md space-y-8 animate-slide-in-left">
+            <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-8 xl:p-12">
+                <div className="max-w-md w-full space-y-8 animate-slide-in-left">
                     {/* Logo */}
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl gradient-bg-primary flex items-center justify-center shadow-2xl shadow-purple-500/50 animate-glow-pulse">
-                            <Image src="/logos/logo.svg" alt="AutoMatrix" width={50} height={50} />
+                        <div className="relative w-10 h-10 xl:w-16 xl:h-16 rounded-2xl gradient-bg-primary flex items-center justify-center shadow-2xl shadow-purple-500/50 animate-glow-pulse">
+                            <Image src="/logos/logo.svg" alt="AutoMatrix" fill />
                         </div>
                         <div>
-                            <h1 className="text-4xl font-bold gradient-text">Automatrix</h1>
-                            <p className="text-muted-foreground">Workflow Automation</p>
+                            <h1 className="text-3xl xl:text-4xl font-bold gradient-text">Automatrix</h1>
+                            <p className="text-sm xl:text-base text-muted-foreground">Workflow Automation</p>
                         </div>
                     </div>
 
                     {/* Features */}
-                    <div className="space-y-6 mt-12">
+                    <div className="space-y-5 xl:space-y-6 mt-12">
                         <FeatureItem
                             icon="⚡"
                             title="Lightning Fast"
@@ -120,24 +118,24 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
 
                     {/* Decorative elements */}
-                    <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-blob-bounce" /> 
-                    <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl animate-blob-bounce" style={{ animationDelay: "2s" }} /> 
+                    <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-blob-bounce" />
+                    <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl animate-blob-bounce" style={{ animationDelay: "2s" }} />
                 </div>
             </div>
 
             {/* Right Side - Auth Form */}
-            <div className="flex-1 flex items-center justify-center p-6 md:p-12">
-                <div className="w-full max-w-md space-y-8 animate-scale-in">
+            <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                <div className="w-full max-w-md space-y-6 my-auto animate-scale-in">
                     {/* Mobile Logo */}
                     <Link
                         href="/"
-                        className="flex lg:hidden items-center justify-center gap-3 mb-8 group"
+                        className="flex lg:hidden items-center justify-center gap-3 mb-6 group"
                     >
                         <div className="relative w-12 h-12 rounded-xl gradient-bg-primary flex items-center justify-center shadow-lg group-hover:shadow-purple-500/50 transition-all group-hover:scale-110">
                             <Image src="/logos/logo.svg" alt="AutoMatrix" fill />
                         </div>
                         <div>
-                            <span className="text-2xl font-bold gradient-text object-contain">Automatrix</span>
+                            <span className="text-2xl font-bold gradient-text">Automatrix</span>
                         </div>
                     </Link>
 
@@ -159,13 +157,13 @@ function FeatureItem({
     description: string;
 }) {
     return (
-        <div className="flex items-start gap-4 group hover-lift">
-            <div className="w-12 h-12 rounded-xl glass-effect flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+        <div className="flex items-start gap-3 xl:gap-4 group hover-lift">
+            <div className="w-10 h-10 xl:w-12 xl:h-12 rounded-xl glass-effect flex items-center justify-center text-xl xl:text-2xl group-hover:scale-110 transition-transform flex-shrink-0">
                 {icon}
             </div>
             <div>
-                <h3 className="font-semibold text-lg">{title}</h3>
-                <p className="text-sm text-muted-foreground">{description}</p>
+                <h3 className="font-semibold text-base xl:text-lg">{title}</h3>
+                <p className="text-xs xl:text-sm text-muted-foreground">{description}</p>
             </div>
         </div>
     );

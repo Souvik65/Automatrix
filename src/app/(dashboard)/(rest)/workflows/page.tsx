@@ -6,6 +6,7 @@ import { HydrateClient } from "@/trpc/server";
 import type { SearchParams } from "nuqs/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { Loading } from "@/components/ui/loading";
 
 type Props = {
     searchParams: Promise<SearchParams>;
@@ -21,7 +22,11 @@ const Page = async ({ searchParams }: Props) => {
         <WorkflowsContainer>
             <HydrateClient>
                 <ErrorBoundary fallback={<WorkflowsError/>}>
-                    <Suspense fallback={<WorkflowsLoading />}>
+                    <Suspense fallback={
+                        <div className="fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm z-50">
+                            <Loading size="lg" text="Loading workflows..." />
+                        </div>
+                    }>
                         <WorkflowsList />
                     </Suspense>
                 </ErrorBoundary>

@@ -28,10 +28,18 @@ export const workflowsRouter = createTRPCRouter({
 
         return workflow;
        }),
-    create: protectedProcedure.mutation(({ ctx }) => {
+    create: protectedProcedure.mutation(async ({ ctx }) => {
+        // Count existing workflows for the user to generate the next sequential name
+        const workflowCount = await prisma.workflow.count({
+            where: { userId: ctx.auth.user.id },
+        });
+
+        const nextNumber = workflowCount + 1;
+        const workflowName = `My Workflow ${nextNumber}`;
+        
         return prisma.workflow.create({
             data: {
-                name: generateSlug(3),
+                name: workflowName,
                 userId: ctx.auth.user.id,
                 nodes: {
                     create: {
