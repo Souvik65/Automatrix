@@ -39,60 +39,60 @@ In today's fast-paced digital world, manual task management is becoming increasi
 ## 💡 Why Automatrix? 
 
 ### The Problem
-- ⏰ **Time Wastage**: Professionals spend an average of 4-5 hours daily on repetitive tasks
-- 🔄 **Context Switching**: Juggling multiple tools and platforms reduces productivity by up to 40%
-- ❌ **Human Error**: Manual processes are prone to mistakes and inconsistencies
-- 📊 **Poor Visibility**:  Lack of centralized workflow tracking makes it hard to monitor progress
+-  **Time Wastage**: Professionals spend an average of 4-5 hours daily on repetitive tasks
+-  **Context Switching**: Juggling multiple tools and platforms reduces productivity by up to 40%
+-  **Human Error**: Manual processes are prone to mistakes and inconsistencies
+-  **Poor Visibility**:  Lack of centralized workflow tracking makes it hard to monitor progress
 
 ### The Solution
 Automatrix empowers you to:
-- ✅ **Automate Repetitive Work**: Create workflows that run automatically, freeing up your time for creative tasks
-- 🎯 **Centralize Operations**: Manage all your workflows from a single, unified dashboard
-- 🔒 **Secure Your Data**: Enterprise-grade authentication ensures your workflows are protected
-- 📈 **Scale Effortlessly**: From personal projects to team collaborations, Automatrix grows with your needs
+-  **Automate Repetitive Work**: Create workflows that run automatically, freeing up your time for creative tasks
+-  **Centralize Operations**: Manage all your workflows from a single, unified dashboard
+-  **Secure Your Data**: Enterprise-grade authentication ensures your workflows are protected
+-  **Scale Effortlessly**: From personal projects to team collaborations, Automatrix grows with your needs
 
 ### Real-World Applications
-- 🏢 **Business Automation**: Automate customer onboarding, report generation, and data processing
-- 💻 **Development Workflows**: Streamline CI/CD pipelines, code reviews, and deployment processes
-- 📧 **Marketing Automation**: Schedule campaigns, track engagement, and manage content calendars
-- 🎓 **Educational Management**: Organize assignments, grade submissions, and communicate with students
+-  **Business Automation**: Automate customer onboarding, report generation, and data processing
+-  **Development Workflows**: Streamline CI/CD pipelines, code reviews, and deployment processes
+-  **Marketing Automation**: Schedule campaigns, track engagement, and manage content calendars
+-  **Educational Management**: Organize assignments, grade submissions, and communicate with students
 
 ---
 
 
-## ✨ Features
+##  Features
 
-### 🔐 **Secure Authentication**
+###  **Secure Authentication**
 - Enterprise-grade security with NextAuth.js
 - Multiple authentication providers support
 - Session management and protected routes
 
-### ⚙️ **Workflow Management**
+###  **Workflow Management**
 - **Create**: Design custom workflows with an intuitive interface
 - **Edit**: Modify existing workflows on the fly
 - **Delete**: Remove outdated or unnecessary workflows
 - **Execute**: Run workflows manually or trigger them automatically
 
-### 🎨 **Beautiful User Interface**
+###  **Beautiful User Interface**
 - Modern, responsive design that works on all devices
 - Dark mode support for comfortable viewing
 - Smooth animations and transitions
 - Accessible and user-friendly components from Shadcn/ui
 
-### 📊 **Advanced Features**
+###  **Advanced Features**
 - **Pagination**:  Efficiently browse through large workflow collections
 - **Search**: Find workflows instantly with smart search
 - **Real-time Updates**: See changes reflected immediately via tRPC
 - **Type Safety**: Full TypeScript support for fewer bugs and better DX
 
-### ��️ **Robust Data Management**
+###  **Robust Data Management**
 - PostgreSQL database for reliable data storage
 - Prisma ORM for type-safe database queries
 - Data validation and integrity checks
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - **Node.js** (v18 or higher)
