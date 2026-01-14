@@ -351,6 +351,99 @@
   }
 }
 
+/* Add these keyframes to your globals.css */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform:  translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.animate-float-up {
+  animation: float-up 3s ease-out forwards;
+}
+
+@keyframes scale-in-center {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in-center {
+  animation: scale-in-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced hover effects */
+.hover-lift-more {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift-more:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.text-gradient {
+  background:  linear-gradient(135deg, #667eea 0%, #4953b2 50%, #55c6e3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced glass effect for dark mode */
+.dark .glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Gradient text utilities */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #4b6ba2b5 50%, #51c5ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg-primary {
+  background: linear-gradient(135deg, #4764e7 0%, #2c9aee90 100%);
+}
+
+.gradient-bg-success {
+  background: linear-gradient(135deg, #00c9a7 0%, #92fe9d 100%);
+}
+
+
+
+
 /* ============================================
    UTILITY CLASSES FOR ANIMATIONS
    ============================================ */
@@ -490,7 +583,7 @@
     radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.15) 0px, transparent 50%),
     radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
     radial-gradient(at 50% 100%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+    radial-gradient(at 100% 100%, rgba(73, 22, 191, 0.15) 0px, transparent 100%);
 }
 
 /* ============================================
