@@ -14,6 +14,7 @@ import { CopyIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { generateGoogleFormScript } from "./utils";
+import { useToastNotification } from "@/hooks/use-toast-notification";
 
 interface Props {
     open: boolean;
@@ -25,6 +26,7 @@ export const GoogleFormTriggerDialog = ({
 }: Props) => {
     const params = useParams();
     const workflowId = params.workflowId as string;
+    const { showSuccess, showError } = useToastNotification();  // update
 
     //construct the webhook URL
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -34,9 +36,9 @@ export const GoogleFormTriggerDialog = ({
     const copyToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(webhookUrl);
-            toast.success("Webhook URL copied to clipboard");
+            showSuccess("Webhook URL copied to clipboard");  // Updated
         } catch  {
-            toast.error("Failed to copy webhook URL");        
+            showError("Failed to copy webhook URL");  // Updated        
         }
     };
 
@@ -94,9 +96,9 @@ export const GoogleFormTriggerDialog = ({
                                 const script = generateGoogleFormScript(webhookUrl)
                                 try {
                                     await navigator.clipboard.writeText(script);
-                                    toast.success("Script copied to clipboard");
+                                    showSuccess("Script copied to clipboard");  // Updated
                                 } catch {
-                                    toast.error("Failed to copy script to clipboard");
+                                    showError("Failed to copy script to clipboard");  // Updated
                                 }
                             }}
                         >

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { MailIcon, LockIcon, ArrowRightIcon, EyeIcon, EyeOffIcon, CheckCircle2Icon } from "lucide-react";
+import { MailIcon, LockIcon, ArrowRightIcon, EyeIcon, EyeOffIcon, CheckCircle2Icon, UserIcon  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -32,7 +32,8 @@ import { cn } from "@/lib/utils";
 
 const registerSchema = z
     .object({
-        email: z.string().email("Enter a valid email address"),
+        name: z.string().min(1, "Name is required"),
+        email: z.string().email({ message: "Enter a valid email address" }),
         password: z.string().min(8, "Password must be at least 8 characters"),
         confirmPassword: z.string(),
     })
@@ -51,6 +52,7 @@ export function RegisterForm() {
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
         defaultValues:  {
+            name: "",
             email: "",
             password: "",
             confirmPassword:  "",
@@ -92,7 +94,7 @@ export function RegisterForm() {
     const onSubmit = async (values: RegisterFormValues) => {
         await authClient. signUp.email(
             {
-                name: values.email,
+                name: values.name,
                 email: values.email,
                 password: values.password,
                 callbackURL: "/",
@@ -193,9 +195,38 @@ export function RegisterForm() {
                             </div>
                         </div>
 
+                        
+
+
                         {/* Email/Password Form */}
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+
+                                {/* Name Form */}
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-sm font-medium">Full Name</FormLabel>
+                                            <FormControl>
+                                                <div className="relative group/input bg-neutral-200 rounded-md">
+                                                    <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="Your full name"
+                                                        className="h-12 pl-11 glass-effect border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                                        {...field}
+                                                        disabled={isPending}
+                                                    />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                {/* Email Form */}
                                 <FormField
                                     control={form.control}
                                     name="email"
@@ -203,7 +234,7 @@ export function RegisterForm() {
                                         <FormItem>
                                             <FormLabel className="text-sm font-medium">Email Address</FormLabel>
                                             <FormControl>
-                                                <div className="relative group/input">
+                                                <div className="relative group/input bg-neutral-200 rounded-md">
                                                     <MailIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                                                     <Input
                                                         type="email"
@@ -226,7 +257,7 @@ export function RegisterForm() {
                                         <FormItem>
                                             <FormLabel className="text-sm font-medium">Password</FormLabel>
                                             <FormControl>
-                                                <div className="space-y-2">
+                                                <div className="space-y-2 bg-neutral-200 rounded-md ">
                                                     <div className="relative group/input">
                                                         <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                                                         <Input
@@ -280,12 +311,12 @@ export function RegisterForm() {
                                         <FormItem>
                                             <FormLabel className="text-sm font-medium">Confirm Password</FormLabel>
                                             <FormControl>
-                                                <div className="relative group/input">
+                                                <div className="relative group/input bg-neutral-200 rounded-md">
                                                     <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                                                     <Input
                                                         type={showConfirmPassword ? "text" : "password"}
                                                         placeholder="••••••••"
-                                                        className="h-12 pl-11 pr-11 glass-effect border-white/20 focus:border-primary focus: ring-2 focus:ring-primary/20 transition-all"
+                                                        className="h-12 pl-11 pr-11 glass-effect border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                                                         {...field}
                                                         disabled={isPending}
                                                     />
