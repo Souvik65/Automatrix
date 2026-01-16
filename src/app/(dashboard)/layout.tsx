@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AnimatedBackground } from "@/components/animated-background";
+import { NotificationsProvider } from "@/contexts/notifications-context";
 
 const Layout = ({ children }: { children:  React.ReactNode }) => {
   return (
@@ -8,7 +9,9 @@ const Layout = ({ children }: { children:  React.ReactNode }) => {
       <AnimatedBackground />
       <AppSidebar />
       <SidebarInset className="relative mesh-gradient bg-grid">
-        {children}
+        <NotificationsProvider>
+          {children}
+        </NotificationsProvider>
       </SidebarInset>
     </SidebarProvider>
   );

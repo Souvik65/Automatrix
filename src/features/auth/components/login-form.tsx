@@ -139,7 +139,7 @@ export function LoginForm() {
                                     </div>
                                     <span className="font-medium">Continue with Github</span>
                                 </div>
-                                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-linear-to-r from-transparent via-white/10 to-transparent" />
                             </Button>
 
                             <Button
@@ -160,7 +160,7 @@ export function LoginForm() {
                                     </div>
                                     <span className="font-medium">Continue with Google</span>
                                 </div>
-                                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                                <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 bg-linear-to-r from-transparent via-white/10 to-transparent" />
                             </Button>
                         </div>
 
@@ -186,12 +186,12 @@ export function LoginForm() {
                                         <FormItem>
                                             <FormLabel className="text-sm font-medium">Email Address</FormLabel>
                                             <FormControl>
-                                                <div className="relative group/input">
+                                                <div className="relative group/input bg-neutral-200 rounded-md">
                                                     <MailIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                                                     <Input
                                                         type="email"
                                                         placeholder="you@example.com"
-                                                        className="h-12 pl-11 glass-effect border-white/20 focus: border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                                        className="h-12 pl-11 glass-effect border-white/20 focus: focus:ring-2 focus:ring-primary/20 transition-all"
                                                         {...field}
                                                         disabled={isPending}
                                                     />
@@ -209,7 +209,7 @@ export function LoginForm() {
                                         <FormItem>
                                             <FormLabel className="text-sm font-medium">Password</FormLabel>
                                             <FormControl>
-                                                <div className="relative group/input">
+                                                <div className="relative group/input bg-neutral-200 rounded-md">
                                                     <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                                                     <Input
                                                         type={showPassword ? "text" : "password"}
