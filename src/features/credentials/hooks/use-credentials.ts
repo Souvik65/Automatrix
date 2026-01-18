@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tansta
 import { toast } from "sonner";
 import { useCredentialsParams } from "./use-credentials-params";
 import { CredentialType } from "@prisma/client";
-import { useToastNotification } from "@/hooks/use-toast-notification";
 
 
 /**
@@ -23,18 +22,17 @@ export const useSuspenseCredentials = () => {
 export const useCreateCredential = () => {
     const queryClient = useQueryClient();
     const trpc = useTRPC();
-    const { showSuccess, showError } = useToastNotification();
 
     return useMutation(
         trpc.credentials.create.mutationOptions({
             onSuccess: (data) => {
-                showSuccess(`Credential "${data.name}" created successfully!`);
+                toast.success(`Credential "${data.name}" created successfully!`);
                 queryClient.invalidateQueries(
                     trpc.credentials.getMany.queryOptions({}),
                 );
             },
             onError: (error) => {
-                showError("Failed to create credential.");
+                toast.error(`Error creating credential: ${error.message}`);
             },
         }),
     );
@@ -46,12 +44,11 @@ export const useCreateCredential = () => {
 export const useRemoveCredential = () => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
-    const { showSuccess } = useToastNotification();  // Add this
 
     return useMutation(
         trpc.credentials.remove.mutationOptions({
             onSuccess: (data) => {
-                showSuccess(`Credential "${data.name}" removed successfully!`);  // Updated
+                toast.success(`Credential "${data.name}" removed successfully!`);
                 queryClient.invalidateQueries(trpc.credentials.getMany.queryOptions({}));
                 queryClient.invalidateQueries(
                     trpc.credentials.getOne.queryFilter({ id: data.id }),
@@ -79,12 +76,11 @@ export const useSuspenseCredential = (id: string) => {
 export const useUpdateCredential = () => {
     const queryClient = useQueryClient();
     const trpc = useTRPC();
-    const { showSuccess, showError } = useToastNotification();  // Add this
 
     return useMutation(
         trpc.credentials.update.mutationOptions({
             onSuccess: (data) => {
-                showSuccess(`Credential "${data.name}" Saved`);  // Updated
+                toast.success(`Credential "${data.name}" Saved`);
                 queryClient.invalidateQueries(
                     trpc.credentials.getMany.queryOptions({}),
                 );
@@ -93,7 +89,7 @@ export const useUpdateCredential = () => {
                 );
             },
             onError: (error) => {
-                showError(`Failed to save credential: ${error.message}`);  // Updated
+                toast.error(`Failed to save credential: ${error.message}`);
             },
         }),
     );
