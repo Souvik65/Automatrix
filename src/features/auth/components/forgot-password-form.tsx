@@ -32,6 +32,7 @@ import { Input } from "@/components/ui/input";
 import { LoadingSpinner } from "@/components/ui/loading";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useToastNotification } from "@/hooks/use-toast-notification";
 
 const forgotPasswordSchema = z.object({
     email: z.string().email("Enter a valid email address"),
@@ -42,6 +43,7 @@ type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 export function ForgotPasswordForm() {
     const router = useRouter();
     const [emailSent, setEmailSent] = useState(false);
+    const { showSuccess, showError } = useToastNotification();  // Add this
 
     const form = useForm<ForgotPasswordFormValues>({
         resolver: zodResolver(forgotPasswordSchema),
@@ -59,9 +61,9 @@ export function ForgotPasswordForm() {
             await new Promise((resolve) => setTimeout(resolve, 2000));
             
             setEmailSent(true);
-            toast.success("Password reset link sent to your email");
+            showSuccess("Password reset link sent to your email");
         } catch (error) {
-            toast.error("Failed to send reset link. Please try again.");
+            showError("Failed to send reset link. Please try again.");
         }
     };
 

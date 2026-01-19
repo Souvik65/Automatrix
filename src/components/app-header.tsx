@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { SearchIcon, BellIcon } from "lucide-react";
+import { SearchIcon, BellIcon, UserIcon, LogOutIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
@@ -16,6 +16,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useNotifications, Notification  } from "@/contexts/notifications-context";
 
 export const AppHeader = () => {
     const router = useRouter();
@@ -25,6 +26,7 @@ export const AppHeader = () => {
     const user = session?.user;
     const initials = user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U";
     const displayName = user?.name || user?.email || "User";
+    const { notifications, clearNotifications } = useNotifications();  // this is destructuring
 
     const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && searchValue.trim()) {
@@ -51,8 +53,8 @@ export const AppHeader = () => {
                 
 
                 {/* Right: Actions */}
-                {/* <div className="flex items-center gap-2">
-                    Notifications Dropdown
+                <div className="flex items-center gap-2 ml-auto">
+                    {/* Notifications Dropdown */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
@@ -61,37 +63,56 @@ export const AppHeader = () => {
                                 className="relative hover:bg-accent/50 rounded-lg transition-all hover:scale-105"
                             >
                                 <BellIcon className="w-5 h-5" />
-                                <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full animate-pulse ring-2 ring-background" />
+                                {notifications.length > 0 && (  // Only show the dot if there are notifications
+                                    <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full animate-pulse ring-2 ring-background" />
+                                )}
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-80">
-                            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                            <div className="flex items-center justify-between p-2">
+                                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                                {notifications.length > 0 && (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={clearNotifications}
+                                        className="text-muted-foreground hover:text-foreground"
+                                    >
+                                        <TrashIcon className="w-4 h-4 mr-1" />
+                                        Clear All
+                                    </Button>
+                                )}
+                            </div>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <div className="flex flex-col gap-1">
-                                    <span className="font-medium">New workflow executed</span>
-                                    <span className="text-sm text-muted-foreground">Your "My Workflow 1" ran successfully.</span>
+                            {notifications.length === 0 ? (
+                                <div className="p-4 text-center text-muted-foreground">
+                                    No notifications yet.
                                 </div>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <div className="flex flex-col gap-1">
-                                    <span className="font-medium">Credential updated</span>
-                                    <span className="text-sm text-muted-foreground">Your GitHub token has been refreshed.</span>
-                                </div>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <div className="flex flex-col gap-1">
-                                    <span className="font-medium">System maintenance</span>
-                                    <span className="text-sm text-muted-foreground">Scheduled maintenance completed.</span>
-                                </div>
-                            </DropdownMenuItem>
+                            ) : (
+                                notifications.map((notif: Notification) => (  // Add type annotation
+                                    <DropdownMenuItem key={notif.id} className="flex flex-col items-start gap-1">
+                                        <div className="flex items-center gap-2 w-full">
+                                            <div
+                                                className={`w-2 h-2 rounded-full ${
+                                                    notif.type === "success"
+                                                        ? "bg-green-500"
+                                                    : notif.type === "error"
+                                                        ? "bg-red-500"
+                                                        : "bg-blue-500"
+                                                }`}
+                                            />
+                                            <span className="text-sm">{notif.message}</span>
+                                        </div>
+                                        <span className="text-xs text-muted-foreground ml-4">
+                                            {new Date(notif.timestamp).toLocaleString()}
+                                        </span>
+                                    </DropdownMenuItem>
+                                ))
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    Separator
-                    <div className="w-px h-6 bg-border/40 mx-2" />
-
-                    User Profile Dropdown
+                    {/* User Profile Dropdown */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button
@@ -109,16 +130,21 @@ export const AppHeader = () => {
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => router.push("/account")}>
+                                <UserIcon className="w-4 h-4 mr-2" />
+                                Account Settings
+                            </DropdownMenuItem>
                             <DropdownMenuItem disabled>
                                 <span className="text-sm">{user?.email}</span>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={handleSignOut}>
+                                <LogOutIcon className="w-4 h-4 mr-2" />
                                 Sign Out
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
-                </div> */}
+                </div>
             </div>
         </header>
     );
