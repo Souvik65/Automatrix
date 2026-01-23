@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { ZapIcon, SparklesIcon } from "lucide-react";
+import { ZapIcon, ShieldCheckIcon, TrendingUpIcon, SparklesIcon, WorkflowIcon, BotIcon } from "lucide-react";
 
-export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+export const AuthLayout = ({ children }: { children: React. ReactNode }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -28,14 +28,14 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         }> = [];
 
         // Create particles
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 50; i++) {
             particles. push({
                 x: Math. random() * canvas.width,
                 y: Math.random() * canvas.height,
                 size: Math.random() * 2 + 1,
                 speedX: Math.random() * 0.5 - 0.25,
-                speedY: Math. random() * 0.5 - 0.25,
-                opacity: Math.random() * 0.5 + 0.2,
+                speedY: Math.random() * 0.5 - 0.25,
+                opacity: Math.random() * 0.3 + 0.1,
             });
         }
 
@@ -50,12 +50,12 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
                 if (particle.x < 0) particle.x = canvas.width;
                 if (particle.x > canvas.width) particle.x = 0;
-                if (particle.y < 0) particle.y = canvas.height;
-                if (particle.y > canvas. height) particle.y = 0;
+                if (particle. y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
 
                 ctx.beginPath();
-                ctx.arc(particle. x, particle.y, particle. size, 0, Math.PI * 2);
-                ctx. fillStyle = `rgba(139, 92, 246, ${particle.opacity})`;
+                ctx. arc(particle.x, particle. y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(139, 92, 246, ${particle.opacity})`;
                 ctx.fill();
             });
 
@@ -74,71 +74,96 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     return (
-        <div className="relative min-h-screen w-full flex overflow-hidden">
+        <div className="relative min-h-screen w-full flex overflow-hidden bg-gray-50 dark:bg-gray-950">
             {/* Animated Canvas Background */}
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0 pointer-events-none opacity-30"
+                className="absolute inset-0 pointer-events-none opacity-20"
             />
 
-            {/* Mesh Gradient Background */}
-            <div className="absolute inset-0 mesh-gradient bg-grid" />
+            {/* Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900" />
 
-            {/* Left Side - Branding (Hidden on mobile) */}
-            <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-8 xl:p-12">
-                <div className="max-w-md w-full space-y-8 animate-slide-in-left">
-                    {/* Logo */}
-                    <div className="flex items-center gap-4">
-                        <div className="relative w-10 h-10 xl:w-16 xl:h-16 rounded-2xl gradient-bg-primary flex items-center justify-center shadow-2xl shadow-purple-500/50 animate-glow-pulse">
-                            <Image src="/logos/logo.svg" alt="AutoMatrix" fill />
+            {/* Left Side - Branding & Features */}
+            <div className="hidden lg:flex lg:w-1/2 relative mt-15 justify-center p-12 xl:p-16">
+                <div className="max-w-xl w-full space-y-12 z-10">
+                    {/* Logo & Brand */}
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-4">
+                            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center shadow-2xl shadow-purple-500/50">
+                                <Image src="/logos/logo.svg" alt="Automatrix Logo" width={60} height={40} />
+                            </div>
+                            <div>
+                                <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                                    Automatrix
+                                </h1>
+                                <p className="text-gray-600 dark:text-gray-400 font-medium">
+                                    Workflow Automation
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h1 className="text-3xl xl:text-4xl font-bold gradient-text">Automatrix</h1>
-                            <p className="text-sm xl:text-base text-muted-foreground">Workflow Automation</p>
+                        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                            Your personal automation assistant. Create powerful workflows, 
+                            automate repetitive tasks, and boost productivity. 
+                        </p>
+                    </div>
+
+                    {/* Features List */}
+                    <div className="space-y-6">
+                        {/* Feature 1 */}
+                        <div className="flex items-start gap-4 group">
+                            <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500/10 to-yellow-500/10 border border-orange-500/20 group-hover:border-orange-500/40 transition-all">
+                                <ZapIcon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">
+                                    Lightning Fast
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400">
+                                    Build workflows in minutes, not hours
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Feature 2 */}
+                        <div className="flex items-start gap-4 group">
+                            <div className="p-3 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 group-hover:border-green-500/40 transition-all">
+                                <ShieldCheckIcon className="w-6 h-6 text-green-600 dark:text-green-400" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">
+                                    Secure & Reliable
+                                </h3>
+                                <p className="text-gray-600 dark: text-gray-400">
+                                    Enterprise-grade security for your automations
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Feature 3 */}
+                        <div className="flex items-start gap-4 group">
+                            <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 group-hover:border-purple-500/40 transition-all">
+                                <TrendingUpIcon className="w-6 h-6 text-purple-600 dark: text-purple-400" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">
+                                    Scale Effortlessly
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400">
+                                    From startup to enterprise, we grow with you
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Features */}
-                    <div className="space-y-5 xl:space-y-6 mt-12">
-                        <FeatureItem
-                            icon="⚡"
-                            title="Lightning Fast"
-                            description="Build workflows in minutes, not hours"
-                        />
-                        <FeatureItem
-                            icon="🔒"
-                            title="Secure & Reliable"
-                            description="Enterprise-grade security for your automations"
-                        />
-                        <FeatureItem
-                            icon="🚀"
-                            title="Scale Effortlessly"
-                            description="From startup to enterprise, we grow with you"
-                        />
-                    </div>
-
-                    {/* Decorative elements */}
-                    <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-blob-bounce" />
-                    <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl animate-blob-bounce" style={{ animationDelay: "2s" }} />
+                    {/* Testimonial or Stats */}
+                    
                 </div>
             </div>
 
             {/* Right Side - Auth Form */}
-            <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-y-auto">
-                <div className="w-full max-w-md space-y-6 my-auto animate-scale-in">
-                    {/* Mobile Logo */}
-                    <Link
-                        href="/"
-                        className="flex lg:hidden items-center justify-center gap-3 mb-6 group"
-                    >
-                        <div className="relative w-12 h-12 rounded-xl gradient-bg-primary flex items-center justify-center shadow-lg group-hover:shadow-purple-500/50 transition-all group-hover:scale-110">
-                            <Image src="/logos/logo.svg" alt="AutoMatrix" fill />
-                        </div>
-                        <div>
-                            <span className="text-2xl font-bold gradient-text">Automatrix</span>
-                        </div>
-                    </Link>
-
+            <div className="flex-1 flex items-center justify-center p-6 lg:p-12 relative z-10">
+                <div className="w-full max-w-md">
                     {children}
                 </div>
             </div>
@@ -146,25 +171,4 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-// Feature Item Component
-function FeatureItem({
-    icon,
-    title,
-    description,
-}: {
-    icon: string;
-    title: string;
-    description: string;
-}) {
-    return (
-        <div className="flex items-start gap-3 xl:gap-4 group hover-lift">
-            <div className="w-10 h-10 xl:w-12 xl:h-12 rounded-xl glass-effect flex items-center justify-center text-xl xl:text-2xl group-hover:scale-110 transition-transform flex-shrink-0">
-                {icon}
-            </div>
-            <div>
-                <h3 className="font-semibold text-base xl:text-lg">{title}</h3>
-                <p className="text-xs xl:text-sm text-muted-foreground">{description}</p>
-            </div>
-        </div>
-    );
-}
+export default AuthLayout;

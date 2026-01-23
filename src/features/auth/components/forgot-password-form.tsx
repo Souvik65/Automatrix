@@ -35,7 +35,7 @@ import { cn } from "@/lib/utils";
 import { useToastNotification } from "@/hooks/use-toast-notification";
 
 const forgotPasswordSchema = z.object({
-    email: z.string().email("Enter a valid email address"),
+    email: z.email("Enter a valid email address"),
 });
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
