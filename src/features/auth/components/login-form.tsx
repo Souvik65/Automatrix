@@ -29,6 +29,16 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
+/**
+ * Renders the login UI and handles user authentication flows for email/password and social providers.
+ *
+ * The component displays social sign-in buttons (GitHub, Google), an email/password form with validation,
+ * a password visibility toggle, and navigation to the root on successful sign-in. Authentication errors are
+ * surfaced via toast notifications and form inputs/buttons respect the form submission state to prevent
+ * duplicate submissions.
+ *
+ * @returns The rendered login form element
+ */
 export function LoginForm() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);

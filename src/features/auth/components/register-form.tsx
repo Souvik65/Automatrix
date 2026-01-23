@@ -50,6 +50,16 @@ const registerSchema = z
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
+/**
+ * Render the registration form UI for creating a new Automatrix account.
+ *
+ * Handles form state and Zod validation, provides GitHub/Google social sign‑in,
+ * displays a password strength meter and rules checklist, and requires terms acceptance.
+ * On successful sign-up or social sign-in the user is redirected to the homepage;
+ * on failure an error toast is shown.
+ *
+ * @returns A JSX element containing the registration form and related UI.
+ */
 export function RegisterForm() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);

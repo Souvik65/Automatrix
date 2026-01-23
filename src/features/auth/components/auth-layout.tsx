@@ -39,6 +39,13 @@ export const AuthLayout = ({ children }: { children: React. ReactNode }) => {
             });
         }
 
+        /**
+         * Advance and render one frame of the particle animation on the canvas, then schedule the next frame.
+         *
+         * Updates each particle's position using its velocity, wraps particles to the opposite edge when they leave
+         * the canvas bounds, draws each particle as a filled circle using its size and opacity, and requests the
+         * next animation frame.
+         */
         function animate() {
             if (!ctx || !canvas) return;
 
