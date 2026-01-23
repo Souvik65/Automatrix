@@ -182,7 +182,7 @@
 }
 
 
-@layer base {
+@layer base { 
   * {
     @apply border-border outline-ring/50;
   }
@@ -640,11 +640,11 @@
 @keyframes slide-up {
   from {
     opacity: 0;
-    transform:  translateY(20px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform:  translateY(0);
+    transform: translateY(0);
   }
 }
 
@@ -653,7 +653,7 @@
     opacity: 0;
   }
   to {
-    opacity:  1;
+    opacity: 1;
   }
 }
 
@@ -663,4 +663,93 @@
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* Responsive Utilities */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  /* Ensure smooth scrolling */
+  html {
+    @apply scroll-smooth;
+  }
+  
+  /* Prevent horizontal overflow */
+  body, html {
+    @apply overflow-x-hidden;
+  }
+}
+
+/* Custom Responsive Classes */
+@layer utilities {
+  /* Container queries for better responsiveness */
+  .container-responsive {
+    @apply w-full px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl lg:text-3xl;
+  }
+  
+  /* Responsive spacing */
+  .gap-responsive {
+    @apply gap-2 sm:gap-4 lg:gap-6;
+  }
+  
+  .p-responsive {
+    @apply p-3 sm:p-4 lg:p-6;
+  }
+  
+  /* Touch target sizes for mobile */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+/* Mesh Gradient Background - Responsive */
+.mesh-gradient {
+  background: 
+    radial-gradient(at 0% 0%, oklch(0.6854 0.2041 277.1173 / 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, oklch(0.5854 0.2041 277.1173 / 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, oklch(0.6854 0.2041 277.1173 / 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, oklch(0.5854 0.2041 277.1173 / 0.08) 0px, transparent 50%);
+}
+
+/* Grid Background - Hide on mobile for performance */
+.bg-grid {
+  @apply md:bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] md:bg-[size:24px_24px];
+}
+
+/* Glass Effect - Adjust for mobile */
+.glass-effect {
+  @apply backdrop-blur-md sm:backdrop-blur-xl;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+/* Gradient Text */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400;
 }

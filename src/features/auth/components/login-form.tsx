@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { MailIcon, LockIcon, ArrowRightIcon, EyeIcon, EyeOffIcon, GithubIcon, Chrome, ShieldCheckIcon } from "lucide-react";
+import { MailIcon, LockIcon, ArrowRightIcon, EyeIcon, EyeOffIcon, ShieldCheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -23,7 +23,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const loginSchema = z.object({
-    email: z.string().email("Enter a valid email address"),
+    email: z.email("Enter a valid email address"),
     password: z.string().min(1, "Password is required"),
 });
 
@@ -42,7 +42,7 @@ export function LoginForm() {
     });
 
     const signInGithub = async () => {
-        await authClient.signIn. social(
+        await authClient.signIn.social(
             {
                 provider: "github",
             },
@@ -58,7 +58,7 @@ export function LoginForm() {
     };
 
     const signInGoogle = async () => {
-        await authClient.signIn. social(
+        await authClient.signIn.social(
             {
                 provider: "google",
             },
@@ -85,7 +85,7 @@ export function LoginForm() {
                     router.push("/");
                 },
                 onError: (ctx) => {
-                    toast. error(ctx.error.message);
+                    toast.error(ctx.error.message);
                 },
             }
         );
@@ -240,7 +240,7 @@ export function LoginForm() {
                                         <FormControl>
                                             <div className="relative">
                                                 <Input
-                                                    type={showPassword ?  "text" : "password"}
+                                                    type={showPassword ? "text" : "password"}
                                                     placeholder="Enter your password"
                                                     className="h-12 md:h-14 pl-10 md:pl-12 pr-10 md:pr-12 text-sm md:text-base border-2 focus:border-purple-500 dark:focus:border-purple-500 rounded-xl"
                                                     {...field}
