@@ -12,6 +12,7 @@ export interface Notification {
 interface NotificationsContextType {
     notifications: Notification[];
     addNotification: (message: string, type: Notification["type"]) => void;
+    removeNotification: (id: string) => void;
     clearNotifications: () => void;
 }
 
@@ -30,12 +31,16 @@ export const NotificationsProvider = ({ children }: { children: ReactNode }) => 
         setNotifications((prev) => [newNotification, ...prev].slice(0, 50)); // Keep last 50
     };
 
+    const removeNotification = (id: string) => {
+        setNotifications((prev) => prev.filter((n) => n.id !== id));
+    };
+
     const clearNotifications = () => {
         setNotifications([]);
     };
 
     return (
-        <NotificationsContext.Provider value={{ notifications, addNotification, clearNotifications }}>
+        <NotificationsContext.Provider value={{ notifications, addNotification, removeNotification, clearNotifications }}>
             {children}
         </NotificationsContext.Provider>
     );

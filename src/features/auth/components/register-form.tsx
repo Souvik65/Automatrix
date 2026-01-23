@@ -145,7 +145,7 @@ export function RegisterForm() {
                     router.push("/");
                 },
                 onError: (ctx) => {
-                    toast. error(ctx.error.message);
+                    toast.error(ctx.error.message);
                 },
             }
         );
@@ -171,7 +171,7 @@ export function RegisterForm() {
                 <div className="relative bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 p-6 md:p-8">
                     {/* Header */}
                     <div className="text-center mb-6 md:mb-8">
-                        <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent text-gray-900 dark:text-white mb-3">
+                        <h1 className="text-3xl md:text-4xl font-bold bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent dark:text-white mb-3">
                             Create account
                         </h1>
                         <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
@@ -442,7 +442,7 @@ export function RegisterForm() {
                                                     type="checkbox"
                                                     checked={field.value}
                                                     onChange={(e) => field.onChange(e.target.checked)}
-                                                    className="hidden"
+                                                    className="sr-only"
                                                 />
 
                                                 {/* Custom animated checkbox */}
