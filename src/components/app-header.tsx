@@ -114,7 +114,7 @@ export const AppHeader = () => {
                                                 e.stopPropagation();
                                                 removeNotification(notif.id);
                                             }}
-                                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 h-6 w-6 shrink-0"
+                                            className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity p-1 h-6 w-6 shrink-0"
                                             aria-label="Dismiss notification"
                                         >
                                             <XIcon className="w-3 h-3" />
