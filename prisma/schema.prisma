@@ -83,6 +83,7 @@ model CronSchedule {
   workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
   
   nodeId      String   @unique
+  node        Node     @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   
   // Cron configuration
   cronExpression String
@@ -164,6 +165,7 @@ model Node{
 
   outputConnections Connection[] @relation("FromNode")
   inputConnections Connection[] @relation("ToNode")
+  cronSchedule CronSchedule?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -120,6 +120,15 @@ export const workflowsRouter = createTRPCRouter({
                 })),
             });
 
+            // Delete orphaned cron schedules
+            const newNodeIds = nodes.map((node) => node.id);
+            await tx.cronSchedule.deleteMany({
+                where: {
+                    workflowId: id,
+                    nodeId: { notIn: newNodeIds },
+                },
+            });
+
             // updating the workflow's updatedAt timestamp
             await tx.workflow.update({
                 where: { id },
