@@ -12,7 +12,7 @@ import { openAiChannel } from "./channels/openai";
 import { anthropicChannel } from "./channels/anthropic";
 import { cronTriggerChannel } from "./channels/cron-trigger";
 import { webhookTriggerChannel } from "./channels/webhook-trigger";
-import * as parser from "cron-parser";
+import { CronExpressionParser } from "cron-parser";
 
 
 
@@ -166,7 +166,7 @@ export const executeCronWorkflows = inngest.createFunction(
         });
 
         // Calculate next run time
-        const interval = parser.parseExpression(schedule.cronExpression, {
+        const interval = CronExpressionParser.parse(schedule.cronExpression, {
           currentDate: now,
           tz: schedule.timezone,
         });

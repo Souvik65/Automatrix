@@ -4,7 +4,7 @@ import { getSubscriptionToken, Realtime } from "@inngest/realtime";
 import { cronTriggerChannel } from "@/inngest/channels/cron-trigger";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
-import * as parser from "cron-parser";
+import { CronExpressionParser } from "cron-parser";
 
 export type CronTriggerToken = Realtime.Token<
     typeof cronTriggerChannel,
@@ -31,7 +31,7 @@ export async function saveCronSchedule(params: {
 
     // Calculate next run time
     
-    const interval = parser.parseExpression(cronExpression, {
+    const interval = CronExpressionParser.parse(cronExpression, {
         currentDate: new Date(),
         tz: timezone,
     });

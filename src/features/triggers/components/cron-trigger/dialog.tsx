@@ -18,7 +18,7 @@ import { useToastNotification } from "@/hooks/use-toast-notification";
 import { parseCronExpression, generateCronDescription } from "./utils";
 import { saveCronSchedule } from "./actions";
 import { useReactFlow } from "@xyflow/react";
-import * as parser from "cron-parser";
+import { CronExpressionParser } from "cron-parser";
 
 interface Props {
     open: boolean;
@@ -66,7 +66,7 @@ export const CronTriggerDialog = ({ open, onOpenChange, nodeId }: Props) => {
 
     useEffect(() => {
         try {
-            const interval = parser.parseExpression(cronExpression, {
+            const interval = CronExpressionParser.parse(cronExpression, { 
                 currentDate: new Date(),
                 tz: timezone,
             });

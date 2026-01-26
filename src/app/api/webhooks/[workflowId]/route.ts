@@ -5,10 +5,10 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(
     request: NextRequest,
-    { params }: { params: { workflowId: string } }
+    { params }: { params: Promise<{ workflowId: string }> }
 ) {
     try {
-        const workflowId = params.workflowId;
+        const { workflowId } = await params;
 
         // Verify workflow exists
         const workflow = await prisma.workflow.findUnique({
@@ -69,7 +69,12 @@ export async function POST(
 // Support GET for webhook testing
 export async function GET(
     request: NextRequest,
-    { params }: { params: { workflowId: string } }
+    { params }: { params: Promise<{ workflowId: string }> }
 ) {
-    return POST(request, { params });
-}
+    const { workflowId } = await params;
+    return NextResponse.json({
+    success: true,
+    message: "Webhook endpoint is active. Use POST to trigger workflow.",
+    workflowId,
+    });
+ }
