@@ -77,6 +77,30 @@ model Verification {
 }
 
 
+model CronSchedule {
+  id          String   @id @default(cuid())
+  workflowId  String
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  
+  nodeId      String   @unique
+  
+  // Cron configuration
+  cronExpression String
+  timezone       String @default("UTC")
+  enabled        Boolean @default(true)
+  
+  // Metadata
+  lastRunAt   DateTime?
+  nextRunAt   DateTime?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([workflowId, enabled])
+  @@index([nextRunAt, enabled])
+}
+
+
 model Credential {
   id        String   @id @default(cuid())
   name      String
@@ -107,6 +131,7 @@ model Workflow{
   nodes Node[]
   connections Connection[]
   executions Execution[]
+  cronSchedules CronSchedule[]
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -120,6 +145,8 @@ enum NodeType {
   ANTHROPIC
   OPENAI
   GEMINI
+  WEBHOOK_TRIGGER        
+  CRON_TRIGGER 
 }
 
 model Node{

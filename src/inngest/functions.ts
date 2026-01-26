@@ -1,7 +1,7 @@
 import { NonRetriableError } from "inngest";
 import { inngest } from "./client";
 import prisma from "@/lib/db";
-import { topologicalSort } from "./utils";
+import { sendWorkflowExecution, topologicalSort } from "./utils";
 import { ExecutionStatus, NodeType } from "@prisma/client";
 import { getExecutor } from "@/features/executions/lib/executor-registry";
 import { httpRequestChannel } from "./channels/http-request";
@@ -10,6 +10,9 @@ import { googleFormTriggerChannel } from "./channels/google-form-trigger";
 import { geminiChannel } from "./channels/gemini";
 import { openAiChannel } from "./channels/openai";
 import { anthropicChannel } from "./channels/anthropic";
+import { cronTriggerChannel } from "./channels/cron-trigger";
+import { webhookTriggerChannel } from "./channels/webhook-trigger";
+import * as parser from "cron-parser";
 
 
 
@@ -37,6 +40,8 @@ export const executeWorkflow = inngest.createFunction(
       geminiChannel(),
       openAiChannel(),
       anthropicChannel(),
+      webhookTriggerChannel(),
+      cronTriggerChannel(),
     ],
   },
   async ({ event, step, publish }) => {
@@ -110,4 +115,77 @@ export const executeWorkflow = inngest.createFunction(
       result: context,
      };
   },
+);
+
+export const executeCronWorkflows = inngest.createFunction(
+  {
+    id: "execute-cron-workflows",
+    retries: process.env.NODE_ENV === "production" ? 3 : 0,
+  },
+  {
+    cron: "* * * * *",
+  },
+  
+  async ({ step }) => {
+    const now = new Date();
+
+    // Find all enabled cron schedules that are due
+    const dueSchedules = await step.run("find-due-schedules", async () => {
+      return prisma.cronSchedule.findMany({
+        where: {
+          enabled: true,
+          OR: [
+            { nextRunAt: null },
+            { nextRunAt: { lte: now } },
+          ],
+        },
+        include: {
+          workflow: {
+            select: {
+              id: true,
+              userId: true,
+            },
+          },
+        },
+      });
+    });
+
+    // Execute each due workflow
+    for (const schedule of dueSchedules) {
+      await step.run(`execute-cron-${schedule.id}`, async () => {
+        // Trigger workflow execution
+        await sendWorkflowExecution({
+          workflowId: schedule.workflowId,
+          initialData: {
+            cron: {
+              scheduleId: schedule.id,
+              expression: schedule.cronExpression,
+              executedAt: now.toISOString(),
+            },
+          },
+        });
+
+        // Calculate next run time
+        const interval = parser.parseExpression(schedule.cronExpression, {
+          currentDate: now,
+          tz: schedule.timezone,
+        });
+        const nextRun = interval.next().toDate();
+
+        // Update schedule
+        await prisma.cronSchedule.update({
+          where: { id: schedule.id },
+          data: {
+            lastRunAt: now,
+            nextRunAt: nextRun,
+          },
+        });
+      });
+    }
+
+    return { 
+      executed: dueSchedules.length,
+      timestamp: now.toISOString(),
+    };
+  }
 );
