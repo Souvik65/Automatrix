@@ -5,17 +5,17 @@ export const useToastNotification = () => {
     const { addNotification } = useNotifications();
 
     const showSuccess = (message: string) => {
-        toast.success(message);
+        toast.success(message, { duration: 0 });  // Add { duration: 0 } to prevent auto-dismiss
         addNotification(message, "success");
     };
 
     const showError = (message: string) => {
-        toast.error(message);
+        toast.error(message, { duration: 0 });  // Add { duration: 0 } to prevent auto-dismiss
         addNotification(message, "error");
     };
 
     const showInfo = (message: string) => {
-        toast.info(message);
+        toast.info(message, { duration: 0 });  // Add { duration: 0 } to prevent auto-dismiss
         addNotification(message, "info");
     };
 

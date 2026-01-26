@@ -29,8 +29,15 @@ export async function saveCronSchedule(params: {
 }) {
     const { workflowId, nodeId, cronExpression, timezone, enabled } = params;
 
+    // Check if the node exists in the database (node IDs are globally unique)
+    const node = await prisma.node.findUnique({
+        where: { id: nodeId },
+    });
+    if (!node) {
+        throw new Error("Node not found. Please save the workflow before configuring cron schedules.");
+    }
+
     // Calculate next run time
-    
     const interval = CronExpressionParser.parse(cronExpression, {
         currentDate: new Date(),
         tz: timezone,

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export interface Notification {
     id: string;
@@ -18,8 +18,28 @@ interface NotificationsContextType {
 
 const NotificationsContext = createContext<NotificationsContextType | undefined>(undefined);
 
+const STORAGE_KEY = "automatrix-notifications";
+
 export const NotificationsProvider = ({ children }: { children: ReactNode }) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    // Load notifications from localStorage on mount
+    useEffect(() => {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                setNotifications(parsed);
+            } catch (error) {
+                console.error("Failed to parse notifications from localStorage:", error);
+            }
+        }
+    }, []);
+
+    // Save notifications to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
+    }, [notifications]);
 
     const addNotification = (message: string, type: Notification["type"]) => {
         const newNotification: Notification = {

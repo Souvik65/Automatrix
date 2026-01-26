@@ -97,6 +97,7 @@ model CronSchedule {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   
+  
   @@index([workflowId, enabled])
   @@index([nextRunAt, enabled])
 }
@@ -165,7 +166,7 @@ model Node{
 
   outputConnections Connection[] @relation("FromNode")
   inputConnections Connection[] @relation("ToNode")
-  cronSchedule CronSchedule?
+  cronSchedules CronSchedule[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
