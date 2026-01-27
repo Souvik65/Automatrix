@@ -5,7 +5,7 @@ export const useToastNotification = () => {
     const { addNotification } = useNotifications();
 
     const showSuccess = (message: string) => {
-        toast.success(message, { duration: 0 });  // Add { duration: 0 } to prevent auto-dismiss
+        toast.success(message, { duration: 0 });   
         addNotification(message, "success");
     };
 
