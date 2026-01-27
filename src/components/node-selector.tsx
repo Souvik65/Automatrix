@@ -3,10 +3,8 @@
 import { createId } from "@paralleldrive/cuid2";
 import { useReactFlow } from "@xyflow/react";
 import { 
-    ClockIcon,
     GlobeIcon,
     MousePointerIcon,
-    WebhookIcon,
 } from "lucide-react";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -40,18 +38,6 @@ const triggerNodes: NodeTypeOption[] = [
         label: "Google Form Trigger",
         description: "Start the workflow when a Google Form is submitted.",
         icon: "/logos/googleform.svg",
-    },
-    {
-        type: NodeType.WEBHOOK_TRIGGER,  // ✨ NEW
-        label: "Webhook",
-        description: "Trigger workflow via HTTP requests.",
-        icon: WebhookIcon,
-    },
-    {
-        type: NodeType.CRON_TRIGGER,  // ✨ NEW
-        label: "Cron Schedule",
-        description: "Run workflow on a schedule.",
-        icon: ClockIcon,
     },
 ];
 

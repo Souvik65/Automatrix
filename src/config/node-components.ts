@@ -3,10 +3,8 @@ import { AnthropicNode } from "@/features/executions/components/anthropic/node";
 import { GeminiNode } from "@/features/executions/components/gemini/node";
 import { HttpRequestNode } from "@/features/executions/components/http-request/node";
 import { OpenAINode } from "@/features/executions/components/openai/node";
-import { CronTriggerNode } from "@/features/triggers/components/cron-trigger/node";
 import { GoogleFormTrigger } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
-import { WebhookTriggerNode } from "@/features/triggers/components/webhook-trigger/node";
 import { NodeType } from "@prisma/client";
 import type { NodeTypes } from "@xyflow/react";
 
@@ -18,8 +16,6 @@ export const nodeComponents = {
     [NodeType.GEMINI]: GeminiNode,
     [NodeType.OPENAI]: OpenAINode,
     [NodeType.ANTHROPIC]: AnthropicNode,
-    [NodeType.WEBHOOK_TRIGGER]: WebhookTriggerNode,  
-    [NodeType.CRON_TRIGGER]: CronTriggerNode,  
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeType = keyof typeof nodeComponents;
