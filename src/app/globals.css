@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -110,23 +109,20 @@
   --shadow-2xl: 2px 2px 10px 4px hsl(240 4% 60% / 0.45);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
-    /* Gradient variables */
-  --gradient-primary:  linear-gradient(135deg, oklch(0.6 0.25 277) 0%, oklch(0.55 0.22 285) 100%);
+  /* Gradient variables */
+  --gradient-primary: linear-gradient(135deg, oklch(0.6 0.25 277) 0%, oklch(0.55 0.22 285) 100%);
   --gradient-accent: linear-gradient(135deg, oklch(0.7 0.15 200) 0%, oklch(0.6 0.20 250) 100%);
-  
+
   /* Glassmorphism */
   --glass-bg: oklch(0.97 0.002 106 / 0.6);
   --glass-border: oklch(0.9 0.01 106 / 0.2);
-  
+
   /* Status colors */
   --success: oklch(0.65 0.17 145);
   --warning: oklch(0.75 0.15 70);
   --error: oklch(0.60 0.20 25);
   --info: oklch(0.60 0.18 240);
 }
-
-
-
 
 .dark {
   --background: oklch(0.2244 0.0074 67.4370);
@@ -181,7 +177,6 @@
   --shadow-2xl: 2px 2px 10px 4px hsl(0 0% 0% / 0.45);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -190,7 +185,7 @@
     @apply bg-background text-foreground;
     letter-spacing: var(--tracking-normal);
   }
-  
+
   button:not([disabled]),
   [role="button"]:not([disabled]) {
     cursor: pointer;
@@ -276,7 +271,7 @@
     opacity: 1;
   }
   90% {
-    opacity:  1;
+    opacity: 1;
   }
   100% {
     transform: translate(100px, -100px) rotate(360deg);
@@ -287,7 +282,7 @@
 @keyframes spotlight {
   0% {
     opacity: 0;
-    transform:  scale(0.8);
+    transform: scale(0.8);
   }
   50% {
     opacity: 0.3;
@@ -297,8 +292,6 @@
     transform: scale(1.5);
   }
 }
-
-/* Add these keyframes to your globals.css */
 
 @keyframes shimmer {
   0% {
@@ -323,7 +316,7 @@
     opacity: 1;
   }
   100% {
-    transform:  translateY(-20px);
+    transform: translateY(-20px);
     opacity: 0;
   }
 }
@@ -347,7 +340,6 @@
   animation: scale-in-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Enhanced hover effects */
 .hover-lift-more {
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
@@ -358,23 +350,20 @@
 }
 
 .text-gradient {
-  background:  linear-gradient(135deg, #667eea 0%, #4953b2 50%, #55c6e3 100%);
+  background: linear-gradient(135deg, #667eea 0%, #4953b2 50%, #55c6e3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Enhanced glass effect for dark mode */
 .dark .glass-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  backdrop-filter: blur(22px) saturate(190%); /* middle ground between 20 & 24 */
+  backdrop-filter: blur(22px) saturate(190%);
   -webkit-backdrop-filter: blur(22px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.11);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
-
-/* Gradient text utilities */
 .gradient-text {
   background: linear-gradient(135deg, #667eea 0%, #4b6ba2b5 50%, #51c5ef 100%);
   -webkit-background-clip: text;
@@ -389,13 +378,6 @@
 .gradient-bg-success {
   background: linear-gradient(135deg, #00c9a7 0%, #92fe9d 100%);
 }
-
-
-
-
-/* ============================================
-   UTILITY CLASSES FOR ANIMATIONS
-   ============================================ */
 
 .animate-glow-pulse {
   animation: glow-pulse 2s ease-in-out infinite;
@@ -426,10 +408,6 @@
   animation: particle-float 3s ease-out forwards;
 }
 
-/* ============================================
-   ADVANCED GLASSMORPHISM EFFECTS
-   ============================================ */
-
 .glass-card {
   background: linear-gradient(
     135deg,
@@ -441,12 +419,6 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
-
-
-
-/* ============================================
-   GRADIENT BORDERS
-   ============================================ */
 
 .gradient-border {
   position: relative;
@@ -468,10 +440,6 @@
   background-size: 200% 200%;
 }
 
-/* ============================================
-   FLOATING ELEMENTS & PARTICLES
-   ============================================ */
-
 .floating-particles {
   position: absolute;
   inset: 0;
@@ -488,21 +456,17 @@
   animation: particle-float 3s ease-out infinite;
 }
 
-/* ============================================
-   HOVER EFFECTS
-   ============================================ */
-
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
-  transform:  translateY(-8px);
+  transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.4), 
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.4),
               0 0 60px rgba(139, 92, 246, 0.2);
 }
 
@@ -514,10 +478,6 @@
   transform: scale(1.05);
 }
 
-/* ============================================
-   MESH GRADIENT BACKGROUND
-   ============================================ */
-
 .mesh-gradient {
   background: 
     radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
@@ -528,10 +488,6 @@
     radial-gradient(at 100% 100%, rgba(73, 22, 191, 0.15) 0px, transparent 100%);
 }
 
-/* ============================================
-   NEON TEXT EFFECTS
-   ============================================ */
-
 .neon-text {
   text-shadow: 
     0 0 10px rgba(139, 92, 246, 0.8),
@@ -539,10 +495,6 @@
     0 0 30px rgba(139, 92, 246, 0.4),
     0 0 40px rgba(139, 92, 246, 0.2);
 }
-
-/* ============================================
-   SPOTLIGHT EFFECT
-   ============================================ */
 
 .spotlight-container {
   position: relative;
@@ -558,10 +510,6 @@
   transition: all 0.3s ease;
 }
 
-/* ============================================
-   CARD STACK EFFECT
-   ============================================ */
-
 .card-stack {
   position: relative;
 }
@@ -570,7 +518,7 @@
 .card-stack::after {
   content: '';
   position: absolute;
-  inset:  0;
+  inset: 0;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: inherit;
@@ -587,10 +535,6 @@
   opacity: 0.25;
 }
 
-/* ============================================
-   ANIMATED BACKGROUND GRID
-   ============================================ */
-
 .bg-grid {
   background-image: 
     linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
@@ -604,13 +548,9 @@
     background-position: 0 0;
   }
   100% {
-    background-position:  50px 50px;
+    background-position: 50px 50px;
   }
 }
-
-/* ============================================
-   RIBBON BADGE
-   ============================================ */
 
 .ribbon {
   position: absolute;
@@ -625,7 +565,7 @@
 }
 
 .ribbon::before {
-  content:  '';
+  content: '';
   position: absolute;
   bottom: -8px;
   right: 0;
@@ -635,32 +575,79 @@
   border-bottom: 8px solid transparent;
 }
 
-/* Add these to your existing globals.css */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform:  translateY(20px);
+  html {
+    @apply scroll-smooth;
   }
-  to {
-    opacity: 1;
-    transform:  translateY(0);
-  }
-}
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity:  1;
+  body, html {
+    @apply overflow-x-hidden;
   }
 }
 
-.animate-slide-up {
-  animation: slide-up 0.5s ease-out;
+@layer utilities {
+  .container-responsive {
+    @apply w-full px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl lg:text-3xl;
+  }
+
+  .gap-responsive {
+    @apply gap-2 sm:gap-4 lg:gap-6;
+  }
+
+  .p-responsive {
+    @apply p-3 sm:p-4 lg:p-6;
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+.mesh-gradient {
+  background: 
+    radial-gradient(at 0% 0%, oklch(0.6854 0.2041 277.1173 / 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, oklch(0.5854 0.2041 277.1173 / 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, oklch(0.6854 0.2041 277.1173 / 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, oklch(0.5854 0.2041 277.1173 / 0.08) 0px, transparent 50%);
+}
+
+.bg-grid {
+  @apply md:bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] md:bg-[size:24px_24px];
+}
+
+.glass-effect {
+  @apply backdrop-blur-md sm:backdrop-blur-xl;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400;
 }

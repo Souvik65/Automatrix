@@ -64,10 +64,10 @@ const profileSchema = z.object({
 });
 
 // Password change schema
-const passwordSchema = z. object({
+const passwordSchema = z.object({
     currentPassword: z.string().min(1, "Current password is required"),
     newPassword: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z. string(),
+    confirmPassword: z.string(),
 }).refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
@@ -110,7 +110,7 @@ export const AccountForm = () => {
     const profileForm = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            name: user?. name || "",
+            name: user?.name || "",
             image: user?.image || "",
         },
         mode: "onChange",
@@ -118,7 +118,7 @@ export const AccountForm = () => {
 
     // Password form
     const passwordForm = useForm<PasswordFormValues>({
-        resolver:  zodResolver(passwordSchema),
+        resolver: zodResolver(passwordSchema),
         defaultValues: {
             currentPassword: "",
             newPassword: "",
@@ -140,7 +140,7 @@ export const AccountForm = () => {
     };
 
     // Format date
-    const formatDate = (date:  string | number | Date | undefined) => {
+    const formatDate = (date: string | number | Date | undefined) => {
         if (!date) return 'N/A';
         return new Date(date).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -158,7 +158,7 @@ export const AccountForm = () => {
         const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
         
         if (diffInMinutes < 1) return 'Just now';
-        if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' :  ''} ago`;
+        if (diffInMinutes < 60) return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
         
         const diffInHours = Math.floor(diffInMinutes / 60);
         if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
@@ -172,7 +172,7 @@ export const AccountForm = () => {
     // Handle avatar upload
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (! file) return;
+        if (!file) return;
 
         // Validate file size (max 5MB)
         if (file.size > 5 * 1024 * 1024) {
@@ -192,7 +192,7 @@ export const AccountForm = () => {
             // Create a preview
             const reader = new FileReader();
             reader.onloadend = () => {
-                setAvatarPreview(reader. result as string);
+                setAvatarPreview(reader.result as string);
             };
             reader.readAsDataURL(file);
 
@@ -201,7 +201,7 @@ export const AccountForm = () => {
             const base64 = await new Promise<string>((resolve) => {
                 const reader = new FileReader();
                 reader.onloadend = () => resolve(reader.result as string);
-                reader. readAsDataURL(file);
+                reader.readAsDataURL(file);
             });
 
             // Update user profile with new image
@@ -219,7 +219,7 @@ export const AccountForm = () => {
             });
         } catch (error) {
             showError("Failed to upload profile picture");
-            setAvatarPreview(user?. image || null);
+            setAvatarPreview(user?.image || null);
         } finally {
             setIsUploadingAvatar(false);
         }
@@ -236,7 +236,7 @@ export const AccountForm = () => {
                     router.refresh();
                 },
                 onError: (ctx) => {
-                    showError(ctx. error.message);
+                    showError(ctx.error.message);
                 },
             });
         } catch (error) {
@@ -299,7 +299,7 @@ export const AccountForm = () => {
                     email: user?.email,
                     emailVerified: user?.emailVerified,
                     createdAt: user?.createdAt,
-                    updatedAt:  user?.updatedAt,
+                    updatedAt: user?.updatedAt,
                 },
                 stats: stats,
                 exportedAt: new Date().toISOString(),
@@ -308,9 +308,9 @@ export const AccountForm = () => {
             // Create and download JSON file
             const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
             const url = window.URL.createObjectURL(blob);
-            const a = document. createElement('a');
+            const a = document.createElement('a');
             a.href = url;
-            a. download = `automatrix-data-export-${new Date().toISOString()}.json`;
+            a.download = `automatrix-data-export-${new Date().toISOString()}.json`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -325,7 +325,7 @@ export const AccountForm = () => {
     };
 
     return (
-        <div className="grid grid-cols-1 lg: grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Left Column - Profile & Account Info */}
             <div className="lg:col-span-2 space-y-8">
                 {/* Profile Section */}
@@ -343,11 +343,11 @@ export const AccountForm = () => {
                         <Form {...profileForm}>
                             <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-8">
                                 {/* Avatar Upload */}
-                                <div className="flex items-center gap-8 p-6 rounded-xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20">
-                                    <Avatar className="w-28 h-28 ring-4 ring-purple-500/20 transition-all hover:ring-purple-500/40 hover:scale-105">
-                                        <AvatarImage src={avatarPreview || user?. image || undefined} alt={user?.name} />
-                                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-500 text-white text-2xl font-bold">
-                                            {user?.name ?  getInitials(user.name) : 'U'}
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 p-4 sm:p-6 rounded-xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20">
+                                    <Avatar className="w-20 h-20 sm:w-28 sm:h-28 mx-auto sm:mx-0 ring-4 ring-purple-500/20 transition-all hover:ring-purple-500/40 hover:scale-105">
+                                        <AvatarImage src={avatarPreview || user?.image || undefined} alt={user?.name} />
+                                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-500 text-white text-xl sm:text-2xl font-bold">
+                                            {user?.name ? getInitials(user.name) : 'U'}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="flex-1 space-y-3">
@@ -374,7 +374,7 @@ export const AccountForm = () => {
                                             </Button>
 
                                             {/* Cancel Button - Only show if there's a preview different from saved */}
-                                            {avatarPreview && avatarPreview !== user?. image && (
+                                            {avatarPreview && avatarPreview !== user?.image && (
                                                 <Button
                                                     type="button"
                                                     variant="ghost"
@@ -382,7 +382,7 @@ export const AccountForm = () => {
                                                     onClick={() => {
                                                         setAvatarPreview(user?.image || null);
                                                         if (fileInputRef.current) {
-                                                            fileInputRef. current.value = '';
+                                                            fileInputRef.current.value = '';
                                                         }
                                                     }}
                                                     className="text-muted-foreground hover:text-foreground h-10 px-4"
@@ -401,8 +401,8 @@ export const AccountForm = () => {
                                                     onClick={async () => {
                                                         setIsUploadingAvatar(true);
                                                         try {
-                                                            await authClient. updateUser({
-                                                                image:  null,
+                                                            await authClient.updateUser({
+                                                                image: null,
                                                             }, {
                                                                 onSuccess: () => {
                                                                     setAvatarPreview(null);
@@ -410,7 +410,7 @@ export const AccountForm = () => {
                                                                     router.refresh();
                                                                 },
                                                                 onError: (ctx) => {
-                                                                    showError(ctx. error.message);
+                                                                    showError(ctx.error.message);
                                                                 },
                                                             });
                                                         } catch (error) {
@@ -427,7 +427,7 @@ export const AccountForm = () => {
                                             )}
 
                                             {/* Remove Button with AlertDialog - Only show if user has a saved custom image */}
-                                            {user?. image && avatarPreview === user?.image && (
+                                            {user?.image && avatarPreview === user?.image && (
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
                                                         <Button
@@ -461,7 +461,7 @@ export const AccountForm = () => {
                                                                     e.preventDefault();
                                                                     setIsUploadingAvatar(true);
                                                                     try {
-                                                                        await authClient. updateUser({
+                                                                        await authClient.updateUser({
                                                                             image: "",
                                                                         }, {
                                                                             onSuccess: () => {
@@ -479,7 +479,7 @@ export const AccountForm = () => {
                                                                         setIsUploadingAvatar(false);
                                                                     }
                                                                 }}
-                                                                className="bg-destructive hover: bg-destructive/90"
+                                                                className="bg-destructive hover:bg-destructive/90"
                                                                 disabled={isUploadingAvatar}
                                                             >
                                                                 {isUploadingAvatar ? (
@@ -517,8 +517,8 @@ export const AccountForm = () => {
                                                     <Input
                                                         type="text"
                                                         placeholder="Your full name"
-                                                        className="h-12 pl-11 glass-effect border-white/20 focus: border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                                                        {... field}
+                                                        className="h-12 pl-11 glass-effect border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                                        {...field}
                                                         disabled={isUpdatingProfile}
                                                     />
                                                 </div>
@@ -579,7 +579,7 @@ export const AccountForm = () => {
                     </CardHeader>
                     <CardContent className="px-8 pb-8">
                         <Form {...passwordForm}>
-                            <form onSubmit={passwordForm. handleSubmit(onPasswordSubmit)} className="space-y-6">
+                            <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-6">
                                 <FormField
                                     control={passwordForm.control}
                                     name="currentPassword"
@@ -620,12 +620,12 @@ export const AccountForm = () => {
                                             <FormLabel className="text-sm font-medium">New Password</FormLabel>
                                             <FormControl>
                                                 <div className="relative group/input">
-                                                    <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input: text-primary transition-colors" />
+                                                    <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                                                     <Input
-                                                        type={showNewPassword ?  "text" : "password"}
+                                                        type={showNewPassword ? "text" : "password"}
                                                         placeholder="Enter new password"
                                                         className="h-12 pl-11 pr-11 glass-effect border-white/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                                                        {... field}
+                                                        {...field}
                                                         disabled={isChangingPassword}
                                                     />
                                                     <Button
@@ -635,7 +635,7 @@ export const AccountForm = () => {
                                                         className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 text-muted-foreground hover:text-foreground transition-all hover:scale-110"
                                                         onClick={() => setShowNewPassword(!showNewPassword)}
                                                     >
-                                                        {showNewPassword ? <EyeOffIcon className="w-4 h-4" /> :  <EyeIcon className="w-4 h-4" />}
+                                                        {showNewPassword ? <EyeOffIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
                                                     </Button>
                                                 </div>
                                             </FormControl>
@@ -665,7 +665,7 @@ export const AccountForm = () => {
                                                         variant="ghost"
                                                         size="icon"
                                                         className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 text-muted-foreground hover:text-foreground transition-all hover:scale-110"
-                                                        onClick={() => setShowConfirmPassword(! showConfirmPassword)}
+                                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                                     >
                                                         {showConfirmPassword ? <EyeOffIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
                                                     </Button>
@@ -708,13 +708,13 @@ export const AccountForm = () => {
                     </CardHeader>
                     <CardContent className="space-y-6 px-8 pb-8 pt-3">
                         {/* Export Data */}
-                        <div className="flex items-center justify-between p-5 rounded-xl border border-border/50 hover:border-primary/50 transition-all group/export bg-background/50">
-                            <div className="space-y-2 flex-1 pr-4">
-                                <h4 className="font-semibold flex items-center gap-2 text-base">
-                                    <DownloadIcon className="w-5 h-5" />
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-5 rounded-xl border border-border/50 hover:border-primary/50 transition-all group/export bg-background/50">
+                            <div className="space-y-2 flex-1 sm:pr-4 mb-4 sm:mb-0">
+                                <h4 className="font-semibold flex items-center gap-2 text-sm sm:text-base">
+                                    <DownloadIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                                     Export Your Data
                                 </h4>
-                                <p className="text-sm text-muted-foreground leading-relaxed">
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                                     Download a copy of all your data in JSON format.
                                 </p>
                             </div>
@@ -722,7 +722,7 @@ export const AccountForm = () => {
                                 variant="default"
                                 onClick={handleExportData}
                                 disabled={isExportingData}
-                                className="group-hover/export:scale-105 transition-transform h-10 px-4 shrink-0"
+                                className="group-hover/export:scale-105 transition-transform h-10 px-4 shrink-0 w-full sm:w-auto"
                             >
                                 {isExportingData ? (
                                     <LoadingSpinner className="w-4 h-4 mr-2" />
@@ -775,7 +775,7 @@ export const AccountForm = () => {
                                         <AlertDialogAction
                                             onClick={handleDeleteAccount}
                                             disabled={isDeletingAccount}
-                                            className="bg-destructive hover: bg-destructive/90"
+                                            className="bg-destructive hover:bg-destructive/90"
                                         >
                                             {isDeletingAccount ? (
                                                 <LoadingSpinner className="w-4 h-4 mr-2" />
@@ -795,7 +795,7 @@ export const AccountForm = () => {
             {/* Right Column - Account Stats & Info */}
             <div className="space-y-8">
                 {/* Account Information */}
-                <EnhancedCard variant="default" shimmer className="animate-slide-up overflow-hidden" style={{ animationDelay:  '0.15s' }}>
+                <EnhancedCard variant="default" shimmer className="animate-slide-up overflow-hidden" style={{ animationDelay: '0.15s' }}>
                     <CardHeader className="space-y-3 px-8 pt-8">
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <ShieldCheckIcon className="w-6 h-6" />
@@ -804,21 +804,21 @@ export const AccountForm = () => {
                     </CardHeader>
                     <CardContent className="space-y-4 px-8 pb-8">
                         {/* Account Created */}
-                        <div className="flex items-start gap-4 p-5 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:border-green-500/40 hover:from-green-500/15 hover:to-emerald-500/15 transition-all group/stat">
-                            <div className="p-3 rounded-xl bg-green-500/20 group-hover/stat:scale-110 group-hover/stat:bg-green-500/30 transition-all shrink-0 shadow-sm">
-                                <CalendarIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+                        <div className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:border-green-500/40 transition-all">
+                            <div className="p-2 sm:p-3 rounded-xl bg-green-500/20 group-hover/stat:scale-110 group-hover/stat:bg-green-500/30 transition-all shrink-0 shadow-sm">
+                                <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
                             </div>
                             <div className="flex-1 space-y-1.5 min-w-0">
                                 <p className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wide">Member Since</p>
-                                <p className="text-base font-bold text-foreground truncate">
-                                    {formatDate(user?. createdAt)}
+                                <p className="text-sm sm:text-base font-bold text-foreground truncate">
+                                    {formatDate(user?.createdAt)}
                                 </p>
                             </div>
                         </div>
 
                         {/* Last Updated */}
                         <div className="flex items-start gap-4 p-5 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-500/40 hover:from-blue-500/15 hover:to-cyan-500/15 transition-all group/stat">
-                            <div className="p-3 rounded-xl bg-blue-500/20 group-hover/stat: scale-110 group-hover/stat: bg-blue-500/30 transition-all shrink-0 shadow-sm">
+                            <div className="p-3 rounded-xl bg-blue-500/20 group-hover/stat:scale-110 group-hover/stat:bg-blue-500/30 transition-all shrink-0 shadow-sm">
                                 <ClockIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div className="flex-1 space-y-1.5 min-w-0">
@@ -830,7 +830,7 @@ export const AccountForm = () => {
                         </div>
 
                         {/* Account ID */}
-                        <div className="flex items-start gap-4 p-5 rounded-xl bg-gradient-to-r to-pink-500/10 border border-purple-500/20 hover:border-purple-500/40 hover: from-purple-500/15 hover:to-pink-500/15 transition-all group/stat">
+                        <div className="flex items-start gap-4 p-5 rounded-xl bg-gradient-to-r to-pink-500/10 border border-purple-500/20 hover:border-purple-500/40 hover:from-purple-500/15 hover:to-pink-500/15 transition-all group/stat">
                             <div className="p-3 rounded-xl bg-purple-500/20 group-hover/stat:scale-110 group-hover/stat:bg-purple-500/30 transition-all shrink-0 shadow-sm">
                                 <ShieldCheckIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                             </div>
@@ -845,7 +845,7 @@ export const AccountForm = () => {
                 </EnhancedCard>
 
                 {/* Usage Statistics */}
-                <EnhancedCard variant="default" shimmer className="animate-slide-up overflow-hidden" style={{ animationDelay:  '0.2s' }}>
+                <EnhancedCard variant="default" shimmer className="animate-slide-up overflow-hidden" style={{ animationDelay: '0.2s' }}>
                     <CardHeader className="space-y-3 px-8 pt-8">
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <ActivityIcon className="w-6 h-6" />
@@ -861,14 +861,14 @@ export const AccountForm = () => {
                             <div className="p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/10 transition-all cursor-pointer group/metric">
                                 <div className="space-y-3">
                                     <p className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent group-hover/metric:scale-110 transition-transform inline-block">
-                                        {stats. workflows}
+                                        {stats.workflows}
                                     </p>
                                     <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Workflows</p>
                                 </div>
                             </div>
 
                             {/* Executions */}
-                            <div className="p-6 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:scale-105 hover:shadow-lg hover: shadow-green-500/10 transition-all cursor-pointer group/metric">
+                            <div className="p-6 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 hover:scale-105 hover:shadow-lg hover:shadow-green-500/10 transition-all cursor-pointer group/metric">
                                 <div className="space-y-3">
                                     <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent group-hover/metric:scale-110 transition-transform inline-block">
                                         {stats.executions}
@@ -878,7 +878,7 @@ export const AccountForm = () => {
                             </div>
 
                             {/* Credentials */}
-                            <div className="p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20 hover:scale-105 hover: shadow-lg hover:shadow-orange-500/10 transition-all cursor-pointer group/metric">
+                            <div className="p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/10 transition-all cursor-pointer group/metric">
                                 <div className="space-y-3">
                                     <p className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent group-hover/metric:scale-110 transition-transform inline-block">
                                         {stats.credentials}
