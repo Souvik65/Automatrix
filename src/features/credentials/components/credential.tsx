@@ -119,7 +119,7 @@ export const CredentialForm = ({
                     <CardDescription>
                         {isEdit 
                             ? "Update your credential information below."
-                            : "Add your api to get started."}
+                            : "Add a new credential to get started."}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

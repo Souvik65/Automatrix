@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { ZapIcon, ShieldCheckIcon, TrendingUpIcon, } from "lucide-react";
+import { ZapIcon, ShieldCheckIcon, TrendingUpIcon, SparklesIcon, WorkflowIcon, BotIcon } from "lucide-react";
 
-export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+export const AuthLayout = ({ children }: { children: React. ReactNode }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         if (!ctx) return;
 
         canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas. height = window.innerHeight;
 
         const particles:  Array<{
             x: number;
@@ -29,8 +29,8 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         // Create particles
         for (let i = 0; i < 50; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
+            particles. push({
+                x: Math. random() * canvas.width,
                 y: Math.random() * canvas.height,
                 size: Math.random() * 2 + 1,
                 speedX: Math.random() * 0.5 - 0.25,
@@ -50,11 +50,11 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
                 if (particle.x < 0) particle.x = canvas.width;
                 if (particle.x > canvas.width) particle.x = 0;
-                if (particle.y < 0) particle.y = canvas.height;
+                if (particle. y < 0) particle.y = canvas.height;
                 if (particle.y > canvas.height) particle.y = 0;
 
                 ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx. arc(particle.x, particle. y, particle.size, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(139, 92, 246, ${particle.opacity})`;
                 ctx.fill();
             });
@@ -85,7 +85,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900" />
 
             {/* Left Side - Branding & Features */}
-            +<div className="hidden lg:flex lg:w-1/2 relative mt-15 justify-center p-12 xl:p-16">
+            <div className="hidden lg:flex lg:w-1/2 relative mt-15 justify-center p-12 xl:p-16">
                 <div className="max-w-xl w-full space-y-12 z-10">
                     {/* Logo & Brand */}
                     <div className="space-y-6">
@@ -134,7 +134,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                                 <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">
                                     Secure & Reliable
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400">
+                                <p className="text-gray-600 dark: text-gray-400">
                                     Enterprise-grade security for your automations
                                 </p>
                             </div>
@@ -143,7 +143,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                         {/* Feature 3 */}
                         <div className="flex items-start gap-4 group">
                             <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 group-hover:border-purple-500/40 transition-all">
-                                <TrendingUpIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                <TrendingUpIcon className="w-6 h-6 text-purple-600 dark: text-purple-400" />
                             </div>
                             <div className="flex-1">
                                 <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">

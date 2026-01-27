@@ -20,8 +20,8 @@ const Page = async ({params }: PageProps) => {
     prefetchCredential(credentialId);
 
     return (
-        <div className="p-3 sm:p-4 md:px-10 md:py-6 h-full">
-            <div className="mx-auto max-w-full sm:max-w-3xl w-full flex flex-col gap-y-4 sm:gap-y-8 h-full animate-scale-in">
+        <div className="p-4 md:px-10 md:py-6 h-full">
+            <div className="mx-auto max-w-3xl w-full flex flex-col gap-y-8 h-full animate-scale-in">
                 <HydrateClient>
                     <ErrorBoundary fallback={<CredentialsError />}>
                         <Suspense fallback={<Loading size="lg" text="Loading credential..." />}>
