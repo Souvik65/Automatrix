@@ -7,6 +7,8 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Loading } from "@/components/ui/loading";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
     params: Promise<{
         workflowId: string;
@@ -21,12 +23,14 @@ const Page = async ({params }: PageProps) => {
     return (
         <HydrateClient>
             <ErrorBoundary fallback={<EditorError />}>
-                <Suspense fallback={<Loading size="lg" text="Loading workflow editor..." />}>
-                    <EditorHeader workflowId={workflowId} />
-                    <main className="flex-1 animate-slide-in-right">
-                        <Editor workflowId={workflowId} />
-                    </main>
-                </Suspense>
+                <div className="flex flex-col h-screen">
+                    <Suspense fallback={<Loading size="lg" text="Loading workflow editor..." />}>
+                        <EditorHeader workflowId={workflowId} />
+                        <main className="flex-1 min-h-0 animate-slide-in-right">
+                            <Editor workflowId={workflowId} />
+                        </main>
+                    </Suspense>
+                </div>
             </ErrorBoundary>
         </HydrateClient>
     )

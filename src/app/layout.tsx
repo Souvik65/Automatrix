@@ -4,11 +4,13 @@ import { Provider } from 'jotai'
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { ThemeProvider } from "@/components/theme-provider";
+import { SplashWrapper } from "@/components/splash-wrapper";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets:  ["latin"],
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}:  Readonly<{
+}: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
@@ -31,25 +33,29 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background`}
       >
-        <TRPCReactProvider>
-          <NuqsAdapter>
-            <Provider>
-              {children}
-              <Toaster 
-                position="top-right"
-                toastOptions={{
-                  duration: 4000,
-                  className: 'glass-effect',
-                  style: {
-                    background:  'var(--glass-bg)',
-                    backdropFilter: 'blur(12px)',
-                    border: '1px solid var(--glass-border)',
-                  },
-                }}
-              />
-            </Provider>
-          </NuqsAdapter>
-        </TRPCReactProvider>
+        <ThemeProvider>
+          <TRPCReactProvider>
+            <NuqsAdapter>
+              <Provider>
+                <SplashWrapper>
+                  {children}
+                </SplashWrapper>
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: 4000,
+                    className: 'glass-effect',
+                    style: {
+                      background: 'var(--glass-bg)',
+                      backdropFilter: 'blur(12px)',
+                      border: '1px solid var(--glass-border)',
+                    },
+                  }}
+                />
+              </Provider>
+            </NuqsAdapter>
+          </TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

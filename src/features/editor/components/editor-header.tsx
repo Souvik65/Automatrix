@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { SaveIcon } from "lucide-react";
+import { SaveIcon, PlayIcon } from "lucide-react";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -14,9 +14,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState }from "react";
 import Link from "next/link";
-import { useSuspenseWorkflow, useUpdateWorkflow, useUpdateWorkflowName } from "@/features/workflows/hooks/use-workflows";
+import { useSuspenseWorkflow, useUpdateWorkflow, useUpdateWorkflowName, useExecuteWorkflow } from "@/features/workflows/hooks/use-workflows";
 import { useAtomValue } from "jotai";
 import { editorAtom } from "../store/atoms";
+
+export const EditorExecuteButton = ({ workflowId }: { workflowId: string }) => {
+    const executeWorkflow = useExecuteWorkflow();
+
+    const handleExecute = () => {
+        executeWorkflow.mutate({ id: workflowId });
+    }
+
+    return (
+        <Button size="sm" variant="secondary" onClick={handleExecute} disabled={executeWorkflow.isPending}>
+            <PlayIcon className="size-4 mr-2" />
+            Execute
+        </Button>
+    )
+};
 
 export const EditorSaveButton = ({ workflowId }: { workflowId: string }) => {
     const editor = useAtomValue(editorAtom);
@@ -39,12 +54,10 @@ export const EditorSaveButton = ({ workflowId }: { workflowId: string }) => {
     }
 
     return (
-        <div className="ml-auto">
-            <Button size="sm" onClick={handleSave} disabled={saveWorkflow.isPending}>
-                <SaveIcon className="size-4" />
-                Save
-            </Button>
-        </div>
+        <Button size="sm" onClick={handleSave} disabled={saveWorkflow.isPending}>
+            <SaveIcon className="size-4 mr-2" />
+            Save
+        </Button>
     )
 };
 
@@ -143,11 +156,16 @@ export const EditorBreadcrumbs = ({ workflowId }: { workflowId: string }) => {
 
 export const EditorHeader = ({workflowId}: { workflowId: string }) => {
     return (
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4 bg-background">
-            <SidebarTrigger />
-            <div className="flex flex-row items-center justify-between gap-x-4 w-full">
-                <EditorBreadcrumbs workflowId={workflowId}/>
-                <EditorSaveButton workflowId={workflowId} />
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-2 md:px-4 bg-background">
+            <SidebarTrigger className="shrink-0" />
+            <div className="flex flex-1 flex-row items-center justify-between gap-x-2 md:gap-x-4 min-w-0">
+                <div className="min-w-0 truncate">
+                    <EditorBreadcrumbs workflowId={workflowId} />
+                </div>
+                <div className="ml-auto flex shrink-0 items-center gap-1 md:gap-2">
+                    <EditorExecuteButton workflowId={workflowId} />
+                    <EditorSaveButton workflowId={workflowId} />
+                </div>
             </div>
         </header>
     );

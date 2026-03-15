@@ -1,6 +1,3 @@
 {
-    "cSpell.ignoreWords": [
-        "gradient"
-    ],
-    "cSpell.words": []
+    "prisma.pinToPrisma6": true
 }

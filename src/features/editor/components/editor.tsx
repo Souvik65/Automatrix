@@ -75,7 +75,7 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 nodeTypes={nodeComponents}
                 onInit={setEditor}
                 fitView
-                snapGrid={[10, 10]}
+                snapGrid={[10, 10]} // snap nodes to grid
                 zoomOnScroll={true}        // Zoom with scroll wheel
                 panOnScroll={true}        // Disable pan on scroll (avoids conflicts)
                 panOnDrag={[1]}         // Enable panning on left-click (1) or middle-click (2) drag
@@ -83,9 +83,9 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 selectionOnDrag={true}     // Enable selection box on normal drag (default behavior)
                 selectionKeyCode={null}    // No key required for selection (selection is default)
 
-                // proOptions={{ hideAttribution: true}} // hide reactflow watermark attribution
+                proOptions={{ hideAttribution: true}} // hide reactflow watermark attribution
             >
-                <Background />
+                {/* <Background /> */}
                 <Controls />
                 <MiniMap />
                 <Panel position="top-right">

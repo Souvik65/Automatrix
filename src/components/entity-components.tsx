@@ -47,7 +47,7 @@ export const EntityHeader = ({
     isCreating,
 }: EntityHeaderProps) => {
     return (
-        <div className="flex flex-row items-center justify-between gap-x-4 ">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex flex-col">
                 <h1 className="text-lg md:text-xl font-semibold">{title}</h1>
                 {description && (
@@ -57,15 +57,15 @@ export const EntityHeader = ({
                 )}
             </div>
             {onNew && !newButtonHref && (
-                <Button disabled={isCreating || disabled} size="lg" onClick={onNew}>
-                    <PlusIcon className="size-4" />
+                <Button disabled={isCreating || disabled} size="lg" onClick={onNew} className="w-full sm:w-auto">
+                    <PlusIcon className="size-4 mr-2" />
                     {newButtonLabel || "New"}
                 </Button>
             )}
             {newButtonHref && !onNew && (
-                <Button size="lg" asChild>
+                <Button size="lg" asChild className="w-full sm:w-auto">
                     <Link href={newButtonHref} prefetch>
-                        <PlusIcon className="size-4" />
+                        <PlusIcon className="size-4 mr-2" />
                         {newButtonLabel}
                     </Link>
                 </Button>
@@ -115,11 +115,10 @@ export const EntitySearch = ({
     placeholder = "Search",
 }: EntitySearchProps) => {
     return (
-        // Adjust the position of search bar
-        <div className="relative ml-auto top-1 w-full md:w-auto"> 
+        <div className="relative w-full sm:ml-auto sm:w-auto"> 
             <SearchIcon className="size-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input 
-                className="max-w-[200px] bg-background shadow-none border-border pl-8 hover:shadow-sm hover:border-gray-400 transition-shadow duration-200" 
+                className="w-full sm:w-[250px] sm:max-w-none bg-background shadow-none border-border pl-8 hover:shadow-sm hover:border-gray-400 transition-shadow duration-200" 
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
@@ -142,11 +141,12 @@ export const EntityPagination = ({
     disabled,     
 }: EntityPaginationProps) => {
     return (
-        <div className="flex items-center justify-between gap-x-2 w-full sticky bottom-0  ">
-            <div className="flex-1 text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full sticky bottom-0 bg-background/50 backdrop-blur-sm p-2 rounded-t-lg z-10 border-t border-border/20 md:border-none md:bg-transparent md:backdrop-blur-none md:p-0">
+            <div className="text-sm text-muted-foreground order-2 sm:order-1">
                 Page {page} of {totalPages || 1}
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center space-x-2 order-1 sm:order-2 w-full sm:w-auto justify-center sm:justify-end">
+
                 <Button
                     disabled={page === 1 || disabled}
                     variant="outline"
@@ -213,23 +213,23 @@ export const EmptyView = ({
     onNew,
 }: EmptyViewProps) => {
     return (
-        <Empty className="border border-dashed bg-white">
+        <Empty className="border border-dashed bg-background/50 backdrop-blur-sm shadow-md dark:shadow-xl dark:shadow-black/50 transition-shadow">
             <EmptyHeader>
-                <EmptyMedia variant="icon">
-                    <PackageOpenIcon />
+                <EmptyMedia variant="icon" className="bg-transparent">
+                    <PackageOpenIcon className="text-muted-foreground" />
                 </EmptyMedia>
             </EmptyHeader>
-            <EmptyTitle>
+            <EmptyTitle className="text-foreground">
                 No items found
             </EmptyTitle>
             {!!message && (
-                <EmptyDescription>
+                <EmptyDescription className="text-muted-foreground">
                     {message}
                 </EmptyDescription>
             )}
             {!!onNew && (
                 <EmptyContent>
-                    <Button onClick={onNew}>
+                    <Button onClick={onNew} className="bg-primary text-primary-foreground hover:bg-primary/90">
                         Create New
                     </Button>
                 </EmptyContent>
@@ -321,12 +321,12 @@ export const EntityItem = ({
                 <CardContent className="flex flex-row items-center justify-between p-0">
                     <div className="flex items-center gap-3">
                         {image}
-                        <div>
-                            <CardTitle className="text-base font-medium">
+                        <div className="flex-1 min-w-0">
+                            <CardTitle className="text-base font-medium truncate">
                                 {title}
                             </CardTitle>
                             {subtitle && (
-                                <CardDescription className="text-xs">
+                                <CardDescription className="text-xs truncate">
                                     {subtitle}
                                 </CardDescription>
                             )}

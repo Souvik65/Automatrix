@@ -26,6 +26,7 @@ model User {
   accounts      Account[]
   workflows     Workflow[]
   credentials   Credential[]
+  analytics     UserAnalytics[]
 
   @@unique([email])
   @@map("user")
@@ -107,6 +108,8 @@ model Workflow{
   nodes Node[]
   connections Connection[]
   executions Execution[]
+  versions WorkflowVersion[]
+  metrics WorkflowMetrics[]
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -120,6 +123,37 @@ enum NodeType {
   ANTHROPIC
   OPENAI
   GEMINI
+
+  // Triggers
+  CRON_TRIGGER
+  WEBHOOK_TRIGGER
+  EMAIL_RECEIVED_TRIGGER
+  GITHUB_EVENT_TRIGGER
+
+  // Actions
+  SEND_EMAIL_ACTION
+  DATABASE_QUERY_ACTION
+  FILE_UPLOAD_ACTION
+  FILE_DOWNLOAD_ACTION
+
+  // Logic
+  CONDITIONAL_LOGIC
+  SWITCH_LOGIC
+  LOOP_LOGIC
+  DELAY_LOGIC
+  ERROR_HANDLER_LOGIC
+
+  // Data
+  TRANSFORM_DATA
+  FILTER_DATA
+  MERGE_DATA
+  SPLIT_DATA
+  JSON_PARSE_DATA
+
+  // Integrations
+  GITHUB_API_INTEGRATION
+  GOOGLE_SHEETS_INTEGRATION
+  NOTION_INTEGRATION
 }
 
 model Node{
@@ -163,9 +197,19 @@ model Connection {
 }
 
 enum ExecutionStatus {
+  PENDING
   RUNNING
   COMPLETED
   FAILED
+}
+
+enum NodeState {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+  RETRYING
+  SKIPPED
 }
 
 model Execution {
@@ -180,8 +224,62 @@ model Execution {
   
   startedAt DateTime @default(now())
   completedAt DateTime?
+  durationMs Int?
 
   inngestEventId String @unique
 
   output Json?
+  triggerState Json?
+  snapshotId String?
+
+  logs ExecutionLog[]
+}
+
+model ExecutionLog {
+  id            String   @id @default(cuid())
+  executionId   String
+  execution     Execution @relation(fields: [executionId], references: [id], onDelete: Cascade)
+  nodeId        String
+  status        NodeState 
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  inputSnapshot Json?
+  outputSnapshot Json?
+  errorState    Json?
+  durationMs    Int?
+  retryCount    Int      @default(0)
+}
+
+model WorkflowVersion {
+  id          String   @id @default(cuid())
+  workflowId  String
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  version     Int
+  definition  Json
+  createdAt   DateTime @default(now())
+  createdBy   String?
+
+  @@unique([workflowId, version])
+}
+
+model UserAnalytics {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event     String   
+  metadata  Json?
+  timestamp DateTime @default(now())
+}
+
+model WorkflowMetrics {
+  id              String   @id @default(cuid())
+  workflowId      String
+  workflow        Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  periodStart     DateTime
+  successfulRuns  Int      @default(0)
+  failedRuns      Int      @default(0)
+  avgExecutionMs  Int      @default(0)
+  nodeFrequency   Json
+
+  @@unique([workflowId, periodStart])
 }

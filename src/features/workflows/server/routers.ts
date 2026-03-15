@@ -1,4 +1,3 @@
-import { generateSlug } from "random-word-slugs";
 import prisma from "@/lib/db";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import z from "zod";
@@ -103,7 +102,7 @@ export const workflowsRouter = createTRPCRouter({
                     id: node.id,
                     workflowId: id,
                     name: node.type || "UNNAMED",
-                    type: node.type as NodeType,
+                    type: (node.type ?? NodeType.INITIAL) as NodeType,
                     position: node.position,
                     data: node.data || {},
                 })),
@@ -122,12 +121,10 @@ export const workflowsRouter = createTRPCRouter({
 
             
             // updating the workflow's updatedAt timestamp
-            await tx.workflow.update({
+            return await tx.workflow.update({
                 where: { id },
                 data: { updatedAt: new Date() },
             });
-
-            return workflow;
         });
     }),
     updateName: protectedProcedure

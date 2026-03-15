@@ -7,7 +7,7 @@ import { geminiExecutor } from "../components/gemini/executor";
 import { openAiExecutor } from "../components/openai/executor";
 import { anthropicExecutor } from "../components/anthropic/executor";
 
-export const executorRegistry: Record<NodeType, NodeExecutor> = {
+export const executorRegistry: Partial<Record<NodeType, NodeExecutor>> = {
     [NodeType.INITIAL]: manualTriggerExecutor,
     [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
     [NodeType.HTTP_REQUEST]: httpRequestExecutor, 
@@ -15,6 +15,7 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
     [NodeType.GEMINI]: geminiExecutor,
     [NodeType.OPENAI]: openAiExecutor,
     [NodeType.ANTHROPIC]: anthropicExecutor, 
+    
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => { 

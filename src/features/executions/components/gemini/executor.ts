@@ -7,12 +7,14 @@ import { geminiChannel } from "@/inngest/channels/gemini";
 import prisma from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
 
-Handlebars.registerHelper("json", (context) => {
-    const jsonString = JSON.stringify(context, null, 2);
-    const safeString =  new Handlebars.SafeString(jsonString);
+if (!Handlebars.helpers['json']) {
+    Handlebars.registerHelper("json", (context) => {
+        const jsonString = JSON.stringify(context, null, 2);
+        const safeString =  new Handlebars.SafeString(jsonString);
 
-    return safeString;
-});
+        return safeString;
+    });
+}
 
 type GeminiData = {
     variableName?: string;
@@ -114,10 +116,8 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
             },
         );
 
-        const text = 
-            steps[0].content[0].type === "text" 
-            ? steps[0].content[0].text 
-            :"";
+        const content0 = steps[0]?.content?.[0];
+        const text = content0?.type === "text" ? content0.text : "";
         
         await publish(
             geminiChannel().status({
