@@ -4,12 +4,14 @@ import ky, { type Options as KyOptions } from "ky";
 import type { NodeExecutor } from "@/features/executions/types";
 import { httpRequestChannel } from "@/inngest/channels/http-request";
 
-Handlebars.registerHelper("json", (context) => {
-    const jsonString = JSON.stringify(context, null, 2);
-    const safeString =  new Handlebars.SafeString(jsonString);
+if (!Handlebars.helpers['json']) {
+    Handlebars.registerHelper("json", (context) => {
+        const jsonString = JSON.stringify(context, null, 2);
+        const safeString =  new Handlebars.SafeString(jsonString);
 
-    return safeString;
-});
+        return safeString;
+    });
+}
 
 type HttpRequestData = {
     variableName?: string;
@@ -34,39 +36,30 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
     
 
+    // Validate before step.run so publish() is never replayed on Inngest retry
+    if (!data.endpoint) {
+        await publish(
+            httpRequestChannel().status({ nodeId, status: "error" }),
+        );
+        throw new NonRetriableError("Endpoint is required");
+    }
+    if (!data.variableName) {
+        await publish(
+            httpRequestChannel().status({ nodeId, status: "error" }),
+        );
+        throw new NonRetriableError("Variable name is required");
+    }
+    if (!data.method) {
+        await publish(
+            httpRequestChannel().status({ nodeId, status: "error" }),
+        );
+        throw new NonRetriableError("Method is not configured");
+    }
+
     try {
         const result = await step.run("http_request", async () => {
-
-            if (!data.endpoint) {
-                await publish(
-                    httpRequestChannel().status({
-                        nodeId,
-                        status: "error",
-                    }),
-                );
-                throw new NonRetriableError("Endpoint is required");
-            }
-            if (!data.variableName) {
-                await publish(
-                    httpRequestChannel().status({
-                        nodeId,
-                        status: "error",
-                    }),
-                );
-                throw new NonRetriableError("Variable name is required");
-            }
-            if (!data.method) {
-                await publish(
-                    httpRequestChannel().status({
-                        nodeId,
-                        status: "error",
-                    }),
-                );
-                throw new NonRetriableError("Method is not configured");
-            }
-
-            const endpoint = Handlebars.compile(data.endpoint)(context);
-            const method = data.method;
+            const endpoint = Handlebars.compile(data.endpoint!)(context);
+            const method = data.method!;
 
             const options: KyOptions = { method };
 
@@ -95,7 +88,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
             return {
                 ...context,
-                [data.variableName]: responsePayload,
+                [data.variableName!]: responsePayload,
             };
         });
 

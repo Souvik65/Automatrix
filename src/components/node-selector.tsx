@@ -5,6 +5,25 @@ import { useReactFlow } from "@xyflow/react";
 import { 
     GlobeIcon,
     MousePointerIcon,
+    ClockIcon,
+    WebhookIcon,
+    MailIcon,
+    GithubIcon,
+    DatabaseIcon,
+    UploadIcon,
+    DownloadIcon,
+    GitBranchIcon,
+    WaypointsIcon,
+    RepeatIcon,
+    TimerIcon,
+    AlertTriangleIcon,
+    CogIcon,
+    FilterIcon,
+    MergeIcon,
+    SplitIcon,
+    BracesIcon,
+    FileSpreadsheetIcon,
+    FileTextIcon,
 } from "lucide-react";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -39,6 +58,30 @@ const triggerNodes: NodeTypeOption[] = [
         description: "Start the workflow when a Google Form is submitted.",
         icon: "/logos/googleform.svg",
     },
+    {
+        type: NodeType.CRON_TRIGGER,
+        label: "Cron Schedule",
+        description: "Run workflow on a recurring schedule.",
+        icon: ClockIcon,
+    },
+    {
+        type: NodeType.WEBHOOK_TRIGGER,
+        label: "Webhook",
+        description: "Trigger workflow from an external HTTP request.",
+        icon: WebhookIcon,
+    },
+    {
+        type: NodeType.EMAIL_RECEIVED_TRIGGER,
+        label: "Email Received",
+        description: "Trigger when an email is received.",
+        icon: MailIcon,
+    },
+    {
+        type: NodeType.GITHUB_EVENT_TRIGGER,
+        label: "GitHub Event",
+        description: "Trigger on GitHub webhook events.",
+        icon: GithubIcon,
+    },
 ];
 
 const executionNodes: NodeTypeOption[] = [
@@ -65,6 +108,108 @@ const executionNodes: NodeTypeOption[] = [
         label: "Anthropic",
         description: "Use an Anthropic node.",
         icon: "/logos/anthropic.svg",
+    },
+    {
+        type: NodeType.SEND_EMAIL_ACTION,
+        label: "Send Email",
+        description: "Send an email using Resend.",
+        icon: MailIcon,
+    },
+    {
+        type: NodeType.DATABASE_QUERY_ACTION,
+        label: "Database Query",
+        description: "Execute a query against a database.",
+        icon: DatabaseIcon,
+    },
+    {
+        type: NodeType.FILE_UPLOAD_ACTION,
+        label: "File Upload",
+        description: "Upload a file to cloud storage.",
+        icon: UploadIcon,
+    },
+    {
+        type: NodeType.FILE_DOWNLOAD_ACTION,
+        label: "File Download",
+        description: "Download a file from a URL.",
+        icon: DownloadIcon,
+    },
+    {
+        type: NodeType.CONDITIONAL_LOGIC,
+        label: "If / Else",
+        description: "Branch workflow conditionally.",
+        icon: GitBranchIcon,
+    },
+    {
+        type: NodeType.SWITCH_LOGIC,
+        label: "Switch",
+        description: "Route based on multiple cases.",
+        icon: WaypointsIcon,
+    },
+    {
+        type: NodeType.LOOP_LOGIC,
+        label: "Loop",
+        description: "Iterate over an array of items.",
+        icon: RepeatIcon,
+    },
+    {
+        type: NodeType.DELAY_LOGIC,
+        label: "Delay",
+        description: "Pause the workflow execution.",
+        icon: TimerIcon,
+    },
+    {
+        type: NodeType.ERROR_HANDLER_LOGIC,
+        label: "Error Handler",
+        description: "Catch and handle node errors.",
+        icon: AlertTriangleIcon,
+    },
+    {
+        type: NodeType.TRANSFORM_DATA,
+        label: "Transform Data",
+        description: "Map and restructure JSON objects.",
+        icon: CogIcon,
+    },
+    {
+        type: NodeType.FILTER_DATA,
+        label: "Filter Data",
+        description: "Filter arrays and collections.",
+        icon: FilterIcon,
+    },
+    {
+        type: NodeType.MERGE_DATA,
+        label: "Merge Data",
+        description: "Combine multiple data sources.",
+        icon: MergeIcon,
+    },
+    {
+        type: NodeType.SPLIT_DATA,
+        label: "Split Data",
+        description: "Split an array into separate runs.",
+        icon: SplitIcon,
+    },
+    {
+        type: NodeType.JSON_PARSE_DATA,
+        label: "JSON Parse",
+        description: "Parse structured text into a JSON object.",
+        icon: BracesIcon,
+    },
+    {
+        type: NodeType.GITHUB_API_INTEGRATION,
+        label: "GitHub API",
+        description: "Interact with GitHub REST API.",
+        icon: GithubIcon,
+    },
+    {
+        type: NodeType.GOOGLE_SHEETS_INTEGRATION,
+        label: "Google Sheets",
+        description: "Read or write to spreadsheets.",
+        icon: FileSpreadsheetIcon,
+    },
+    {
+        type: NodeType.NOTION_INTEGRATION,
+        label: "Notion",
+        description: "Create pages or query databases in Notion.",
+        icon: FileTextIcon,
     },
 ];
 

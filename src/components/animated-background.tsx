@@ -1,219 +1,199 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 
 interface Particle {
-  x: number;
-  y:  number;
-  size: number;
-  baseSize: number;
-  speedX: number;
-  speedY: number;
-  opacity: number;
-  baseOpacity: number;
-  pulseSpeed: number;
-  pulsePhase: number;
+    x: number;
+    y: number;
+    size: number;
+    baseSize: number;
+    speedX: number;
+    speedY: number;
+    opacity: number;
+    baseOpacity: number;
+    pulseSpeed: number;
+    pulsePhase: number;
+    hue: number; // for rainbow in dark mode
 }
 
+// Rotating list of vivid rainbow hues
+const RAINBOW_HUES = [0, 30, 60, 120, 180, 210, 260, 300, 330];
+
 export function AnimatedBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mousePosRef = useRef<{ x: number; y: number } | null>(null); // ✅ Changed to ref to avoid re-render issues
-  const particlesRef = useRef<Particle[]>([]);
-  const animationFrameRef = useRef<number | undefined>(undefined);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mousePosRef = useRef<{ x: number; y: number } | null>(null);
+    const particlesRef = useRef<Particle[]>([]);
+    const animationFrameRef = useRef<number | undefined>(undefined);
+    const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === "dark";
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+        const updateCanvasSize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        updateCanvasSize();
 
-    // Set canvas size
-    const updateCanvasSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window. innerHeight;
-    };
-    updateCanvasSize();
+        const initParticles = () => {
+            particlesRef.current = [];
+            for (let i = 0; i < 180; i++) {
+                const baseSize = Math.random() * 1 + 1;
+                const baseOpacity = Math.random() * 0.75 + 0.95;
+                particlesRef.current.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: baseSize,
+                    baseSize,
+                    speedX: (Math.random() - 0.5) * 0.6,
+                    speedY: (Math.random() - 0.5) * 0.6,
+                    opacity: baseOpacity,
+                    baseOpacity,
+                    pulseSpeed: Math.random() * 0.02 + 0.01,
+                    pulsePhase: Math.random() * Math.PI * 2,
+                    hue: RAINBOW_HUES[Math.floor(Math.random() * RAINBOW_HUES.length)],
+                });
+            }
+        };
+        initParticles();
 
-    // Initialize particles (180 particles as per config)
-    const initParticles = () => {
-      particlesRef.current = [];
-      const particleCount = 180;
+        let hueOffset = 0;
 
-      for (let i = 0; i < particleCount; i++) {
-        const baseSize = Math.random() * 1 + 1;
-        const baseOpacity = Math.random() * 0.2 + 0.75;
+        const animate = () => {
+            if (!ctx || !canvas) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        particlesRef.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: baseSize,
-          baseSize: baseSize,
-          speedX: (Math.random() - 0.5) * 0.6,
-          speedY: (Math. random() - 0.5) * 0.6,
-          opacity: baseOpacity,
-          baseOpacity: baseOpacity,
-          pulseSpeed: Math. random() * 0.02 + 0.01,
-          pulsePhase: Math.random() * Math.PI * 2,
-        });
-      }
-    };
+            // Slowly rotate all hues in dark mode for the spinning rainbow effect
+            hueOffset = isDark ? (hueOffset + 0.4) % 360 : 0;
 
-    initParticles();
+            const particles = particlesRef.current;
+            const mousePos = mousePosRef.current;
 
-    // Animation loop
-    const animate = () => {
-      if (!ctx || !canvas) return;
+            particles.forEach((particle, index) => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
 
-      const particles = particlesRef.current;
-      const mousePos = mousePosRef. current; // ✅ Use ref instead of state
+                particle.pulsePhase += particle.pulseSpeed;
+                const pulse = Math.sin(particle.pulsePhase) * 0.5 + 0.5;
+                particle.size = particle.baseSize * (0.8 + pulse * 0.4);
+                particle.opacity = particle.baseOpacity * (0.8 + pulse * 0.4);
 
-      particles.forEach((particle, index) => {
-        // Update position
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
+                // Color: rainbow in dark mode, soft purple in light mode
+                const color = isDark
+                    ? `hsla(${(particle.hue + hueOffset) % 360}, 100%, 99%, ${particle.opacity})`
+                    : `rgba(133, 120, 227, ${particle.opacity})`;
 
-        // Wrap around screen edges
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas. height;
-        if (particle. y > canvas.height) particle.y = 0;
+                const lineColor = isDark
+                    ? `hsla(${(particle.hue + hueOffset) % 360}, 100%, 70%, `
+                    : `rgba(133, 120, 227, `;
 
-        // Pulse animation for size and opacity
-        particle.pulsePhase += particle.pulseSpeed;
-        const pulse = Math.sin(particle.pulsePhase) * 0.5 + 0.5;
-        particle.size = particle.baseSize * (0.8 + pulse * 0.4);
-        particle.opacity = particle.baseOpacity * (0.8 + pulse * 0.4);
+                // Draw particle
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
 
-        // Draw particle
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(133, 120, 227, ${particle. opacity})`;
-        ctx.fill();
+                // Connections between nearby particles
+                particles.forEach((other, otherIndex) => {
+                    if (index >= otherIndex) return;
+                    const dx = particle.x - other.x;
+                    const dy = particle.y - other.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 80) {
+                        const lineOpacity = 0.4 * (1 - dist / 80);
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.strokeStyle = `${lineColor}${lineOpacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                });
 
-        // Draw connections between nearby particles
-        particles.forEach((otherParticle, otherIndex) => {
-          if (index >= otherIndex) return;
+                // Mouse grab connections
+                if (mousePos) {
+                    const dx = particle.x - mousePos.x;
+                    const dy = particle.y - mousePos.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        const lineOpacity = 0.584 * (1 - dist / 150);
+                        ctx.beginPath();
+                        ctx.moveTo(particle.x, particle.y);
+                        ctx.lineTo(mousePos.x, mousePos.y);
+                        ctx.strokeStyle = `${lineColor}${lineOpacity})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.stroke();
 
-          const dx = particle.x - otherParticle.x;
-          const dy = particle.y - otherParticle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+                        ctx.beginPath();
+                        ctx.arc(particle.x, particle.y, particle.size + 1, 0, Math.PI * 2);
+                        ctx.fillStyle = isDark
+                            ? `hsla(${(particle.hue + hueOffset) % 360}, 100%, 70%, ${particle.opacity * 1.5})`
+                            : `rgba(133, 120, 227, ${particle.opacity * 1.5})`;
+                        ctx.fill();
+                    }
+                }
+            });
 
-          if (distance < 80) {
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            const lineOpacity = 0.4 * (1 - distance / 80);
-            ctx.strokeStyle = `rgba(133, 120, 227, ${lineOpacity})`;
-            ctx.lineWidth = 1;
-            ctx. stroke();
-          }
-        });
+            animationFrameRef.current = requestAnimationFrame(animate);
+        };
+        animate();
 
-        // Draw connection to mouse (grab effect)
-        if (mousePos) {
-          const dx = particle.x - mousePos.x;
-          const dy = particle. y - mousePos.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        const handleMouseMove = (e: MouseEvent) => {
+            mousePosRef.current = { x: e.clientX, y: e.clientY };
+        };
+        const handleMouseLeave = () => { mousePosRef.current = null; };
+        const handleClick = (e: MouseEvent) => {
+            const clickX = e.clientX;
+            const clickY = e.clientY;
+            for (let i = 0; i < 4; i++) {
+                const angle = (Math.PI * 2 * i) / 4;
+                const baseSize = Math.random() * 1 + 1;
+                const baseOpacity = Math.random() * 0.2 + 0.25;
+                particlesRef.current.push({
+                    x: clickX, y: clickY,
+                    size: baseSize, baseSize,
+                    speedX: Math.cos(angle) * 2, speedY: Math.sin(angle) * 2,
+                    opacity: baseOpacity, baseOpacity,
+                    pulseSpeed: Math.random() * 0.02 + 0.01,
+                    pulsePhase: Math.random() * Math.PI * 2,
+                    hue: RAINBOW_HUES[Math.floor(Math.random() * RAINBOW_HUES.length)],
+                });
+            }
+            if (particlesRef.current.length > 300) {
+                particlesRef.current = particlesRef.current.slice(-250);
+            }
+        };
+        const handleResize = () => { updateCanvasSize(); initParticles(); };
 
-          if (distance < 150) {
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(mousePos.x, mousePos.y);
-            const lineOpacity = 0.584 * (1 - distance / 150);
-            ctx.strokeStyle = `rgba(133, 120, 227, ${lineOpacity})`;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseleave", handleMouseLeave);
+        window.addEventListener("click", handleClick);
+        window.addEventListener("resize", handleResize);
 
-            // Particle glows when connected to mouse
-            ctx. beginPath();
-            ctx.arc(particle.x, particle.y, particle.size + 1, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(133, 120, 227, ${particle.opacity * 1.5})`;
-            ctx.fill();
-          }
-        }
-      });
+        return () => {
+            if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseleave", handleMouseLeave);
+            window.removeEventListener("click", handleClick);
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [isDark]); // Re-run when theme changes
 
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    // Mouse move handler - ✅ Attach to window instead of canvas
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePosRef.current = {
-        x: e.clientX,
-        y: e.clientY,
-      };
-    };
-
-    // Mouse leave handler
-    const handleMouseLeave = () => {
-      mousePosRef.current = null;
-    };
-
-    // Click handler - spawn new particles
-    const handleClick = (e:  MouseEvent) => {
-      const clickX = e.clientX;
-      const clickY = e.clientY;
-
-      // Spawn 4 new particles at click position
-      for (let i = 0; i < 4; i++) {
-        const angle = (Math.PI * 2 * i) / 4;
-        const baseSize = Math.random() * 1 + 1;
-        const baseOpacity = Math. random() * 0.2 + 0.25;
-
-        particlesRef.current.push({
-          x: clickX,
-          y: clickY,
-          size: baseSize,
-          baseSize: baseSize,
-          speedX: Math.cos(angle) * 2,
-          speedY: Math.sin(angle) * 2,
-          opacity:  baseOpacity,
-          baseOpacity: baseOpacity,
-          pulseSpeed: Math.random() * 0.02 + 0.01,
-          pulsePhase: Math.random() * Math.PI * 2,
-        });
-      }
-
-      // Limit total particles
-      if (particlesRef.current.length > 300) {
-        particlesRef.current = particlesRef.current.slice(-250);
-      }
-    };
-
-    // Resize handler
-    const handleResize = () => {
-      updateCanvasSize();
-      initParticles();
-    };
-
-    // ✅ Add event listeners to WINDOW, not canvas
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseleave", handleMouseLeave);
-    window.addEventListener("click", handleClick);
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
-      window.removeEventListener("click", handleClick);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []); // ✅ Empty dependency array - no need to depend on mousePos
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none opacity-40 dark:opacity-20"
-      style={{ zIndex: 0 }}
-    />
-  );
+    return (
+        <canvas
+            ref={canvasRef}
+            className="fixed inset-0 pointer-events-none opacity-40 dark:opacity-50"
+            style={{ zIndex: 0 }}
+        />
+    );
 }

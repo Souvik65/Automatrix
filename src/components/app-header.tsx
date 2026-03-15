@@ -47,8 +47,11 @@ export const AppHeader = () => {
     return (
         <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-background/80 border-b border-border/40 supports-backdrop-filter:bg-background/60 shadow-sm">
             <div className="flex h-16 items-center gap-4 px-6">
-                {/* Left: Sidebar Trigger */}
-                <SidebarTrigger className="hover:bg-accent/50 rounded-lg transition-colors" />
+                {/* Left: Sidebar Trigger & Mobile Title */}
+                <div className="flex items-center gap-2">
+                    <SidebarTrigger className="hover:bg-accent/50 rounded-lg transition-colors" />
+                    <span className="font-bold text-xl gradient-text md:hidden">Automatrix</span>
+                </div>
 
                 {/* Right: Actions */}
                 <div className="flex items-center gap-2 ml-auto">

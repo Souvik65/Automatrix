@@ -1,6 +1,6 @@
 import type { Realtime } from "@inngest/realtime";
 import { useInngestSubscription } from "@inngest/realtime/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import type { NodeStatus } from "@/components/react-flow/node-status-indicator";
 
 interface UseNodeStatusOptions {
@@ -18,8 +18,15 @@ export function useNodeStatus({
 }: UseNodeStatusOptions) {
     const [status, setStatus] = useState<NodeStatus>("initial");
 
+    const refreshRef = useRef(refreshToken);
+    useEffect(() => {
+        refreshRef.current = refreshToken;
+    }, [refreshToken]);
+    
+    const stableRefreshToken = useCallback(() => refreshRef.current(), []);
+
     const { data } = useInngestSubscription({
-        refreshToken,
+        refreshToken: stableRefreshToken,
         enabled: true,
     });
 
@@ -47,7 +54,13 @@ export function useNodeStatus({
             })[0];
 
         if (latestMessage?.kind === "data") {
-            setStatus(latestMessage.data.status as NodeStatus);
+            const rawStatus = latestMessage.data.status as string;
+            let mappedStatus: NodeStatus = "initial";
+            if (rawStatus === "RUNNING" || rawStatus === "loading") mappedStatus = "loading";
+            if (rawStatus === "SUCCESS" || rawStatus === "success") mappedStatus = "success";
+            if (rawStatus === "FAILED" || rawStatus === "ERROR" || rawStatus === "error") mappedStatus = "error";
+            
+            setStatus(mappedStatus);
         }  
     }, [data, nodeId, channel, topic]);
     return status;
