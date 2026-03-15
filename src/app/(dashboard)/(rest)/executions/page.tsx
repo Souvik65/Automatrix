@@ -19,19 +19,19 @@ const Page = async ({ searchParams }: Props) => {
     prefetchExecutions(params);
     
     return (
-        <ExecutionsContainer>
-            <HydrateClient>
-                <ErrorBoundary fallback={<ExecutionsError />}>
-                    <Suspense fallback={
-                        <div className="fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm z-50">
-                            <Loading size="lg" text="Loading credentials..." />
-                        </div>
-                    }>
+        <HydrateClient>
+            <ErrorBoundary fallback={<ExecutionsError />}>
+                <Suspense fallback={
+                    <div className="fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm z-50">
+                        <Loading size="lg" text="Loading executions..." />
+                    </div>
+                }>
+                    <ExecutionsContainer>
                         <ExecutionsList />
-                    </Suspense>
-                </ErrorBoundary>
-            </HydrateClient>
-        </ExecutionsContainer>
+                    </ExecutionsContainer>
+                </Suspense>
+            </ErrorBoundary>
+        </HydrateClient>
     )
 };
 

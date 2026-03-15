@@ -26,23 +26,26 @@ export const analyticsRouter = createTRPCRouter({
             },
             select: {
                 status: true,
-                durationMs: true,
                 startedAt: true,
+                completedAt: true,
             }
         });
 
         const successfulRuns = recentExecutions.filter(e => e.status === "COMPLETED").length;
         const failedRuns = recentExecutions.filter(e => e.status === "FAILED").length;
-        
+
         let successRate = 0;
         if (successfulRuns + failedRuns > 0) {
             successRate = (successfulRuns / (successfulRuns + failedRuns)) * 100;
         }
 
-        const completedWithDuration = recentExecutions.filter(e => e.status === "COMPLETED" && e.durationMs !== null);
+        const completedWithDuration = recentExecutions.filter(e => e.status === "COMPLETED" && e.completedAt !== null);
         let avgDuration = 0;
         if (completedWithDuration.length > 0) {
-            avgDuration = completedWithDuration.reduce((acc, curr) => acc + (curr.durationMs || 0), 0) / completedWithDuration.length;
+            avgDuration = completedWithDuration.reduce((acc, curr) => {
+                const ms = curr.completedAt ? curr.completedAt.getTime() - curr.startedAt.getTime() : 0;
+                return acc + ms;
+            }, 0) / completedWithDuration.length;
         }
 
         // Daily chart data for Recharts (last 7 days)
@@ -59,8 +62,8 @@ export const analyticsRouter = createTRPCRouter({
             if (dailyStats[dateStr]) {
                 if (e.status === "COMPLETED") {
                     dailyStats[dateStr].success += 1;
-                    if (e.durationMs) {
-                        dailyStats[dateStr].totalTime += e.durationMs;
+                    if (e.completedAt) {
+                        dailyStats[dateStr].totalTime += e.completedAt.getTime() - e.startedAt.getTime();
                     }
                 } else if (e.status === "FAILED") {
                     dailyStats[dateStr].failed += 1;

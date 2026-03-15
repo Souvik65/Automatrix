@@ -1,6 +1,8 @@
+import { requireAuth } from "@/lib/auth-utils";
 import { AnalyticsDashboard } from "@/features/analytics/components/dashboard";
 
-export default function AnalyticsPage() {
+export default async function AnalyticsPage() {
+    await requireAuth();
     return (
         <div className="h-full p-8 max-w-6xl mx-auto">
             <AnalyticsDashboard />

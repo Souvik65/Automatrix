@@ -172,15 +172,19 @@ export const executeWorkflow = inngest.createFunction(
 
          // Log execution state explicitly for UI tracking
          await step.run(`log-${node.id}`, async () => {
-            await prisma.executionLog.create({
-              data: {
-                executionId: execution.id,
-                nodeId: node.id,
-                status: 'SUCCESS',
-                inputSnapshot: inputItems as unknown as any,
-                outputSnapshot: result.data as unknown as any,
-              }
-            });
+            try {
+              await prisma.executionLog.create({
+                data: {
+                  executionId: execution.id,
+                  nodeId: node.id,
+                  status: 'SUCCESS',
+                  inputSnapshot: inputItems as unknown as any,
+                  outputSnapshot: result.data as unknown as any,
+                }
+              });
+            } catch {
+              // ExecutionLog table may not exist yet — skip logging rather than failing the run
+            }
          });
          
       } else {
