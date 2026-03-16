@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { ThemeProvider } from "@/components/theme-provider";
 import { SplashWrapper } from "@/components/splash-wrapper";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 const geistSans = Geist({
@@ -56,6 +57,7 @@ export default function RootLayout({
             </NuqsAdapter>
           </TRPCReactProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
