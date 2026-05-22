@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+.agent
+.vscode
 
 # next.js
 /.next/
